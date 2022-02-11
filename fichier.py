@@ -1,6 +1,6 @@
 def hello():
     """
-    print hello world
+    return hello world
     """
     print("Hello world")
 
