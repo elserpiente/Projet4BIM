@@ -9,6 +9,7 @@ Welcome to Project_4BIM's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
    intro
    fichier
    modules
