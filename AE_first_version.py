@@ -2,10 +2,6 @@ import numpy as np
 import keras
 from keras import layers
 from keras.callbacks import TensorBoard
-import sklearn.datasets as dt
-
-faces=dt.fetch_olivetti_faces(data_home=None, shuffle=False, random_state=0, download_if_missing=True)['data']
-
 
 # DEFs
 #autoencoder = encoder + decoder | image 28*28*3 -> image 28*28*3
@@ -21,24 +17,38 @@ latent_dim=512
 from matplotlib import image
 from matplotlib import pyplot
 # Load images as pixel array
-faces=np.reshape(faces,(len(faces),64,64))
+image1 = image.imread('imgAE/face_m_m_b.png')
+image2 = image.imread('imgAE/face_m_b_b.png')
+image3 = image.imread('imgAE/face_m_m_r.png')
+image4 = image.imread('imgAE/face_m_m_v.png')
+image5 = image.imread('imgAE/face_m_b_r.png')
+image6 = image.imread('imgAE/face_m_m_ma.png')
 
 # A way to display images
-pyplot.imshow(faces[0])
+pyplot.imshow(image1)
 pyplot.show()
 
-faces=np.reshape(faces,(len(faces),4096))
+# The shape of the images 28 pixels by 28 pixels with 3 values per pixel
+data=np.reshape(np.asarray(image1),(28*28*3))
+data2=np.reshape(np.asarray(image2),(28*28*3))
+data3=np.reshape(np.asarray(image3),(28*28*3))
+data4=np.reshape(np.asarray(image4),(28*28*3))
+data5=np.reshape(np.asarray(image5),(28*28*3))
+data6=np.reshape(np.asarray(image6),(28*28*3))
 
+# The list of values we will use to train and test our autoencoder
+datatest=np.array([data,data2,data3,data4,data5,data6])
+data=np.array([data,data2,data3,data4,data,data,data,data2,data3,data4,data,data2,data3,data4,data,data,data2,data,data,data2,data3,data4,data,data2,data])
 #######################################################################################################################################################################
 ###Layers###
 #######################################################################################################################################################################
 
 # Definition of the input -> which shape we pass in parameter
-input_img = keras.Input(shape=(64*64*1,))
+input_img = keras.Input(shape=(28*28*3,))
 # Our first and only encoder layer which takes our input_img as input
 encoded = layers.Dense(latent_dim, activation='relu')(input_img)
 # Our first and only decoder layer which takes the output of the encoder as input
-decoded = layers.Dense(64*64*1, activation='sigmoid')(encoded)
+decoded = layers.Dense(28*28*3, activation='sigmoid')(encoded)
 
 # We create the model of our autoencoder which takes the input images in
 # argument and return the decoded images
@@ -79,7 +89,7 @@ autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
 # Here we choose a number of 500 epochs and our data to train our autoencoder
 # doing more epochs doesn't make a lot of sense because the loss doesn't get smaller
 # it's mostly because the training images are really basic
-autoencoder.fit(faces, faces,epochs=50,batch_size=256, shuffle=True,validation_data=(faces, faces),callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
+autoencoder.fit(data, data,epochs=500,batch_size=256, shuffle=True,validation_data=(data, data),callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
 #######################################################################################################################################################################
 ###Checks###
 #######################################################################################################################################################################
@@ -88,12 +98,12 @@ autoencoder.fit(faces, faces,epochs=50,batch_size=256, shuffle=True,validation_d
 # well it encode and decode this image.
 # Here there is 4 images that were in the training dataset and some new images
 # the goal is to see how it goes with unknown features
-encoded_imgs = encoder.predict(faces[19:24])
+encoded_imgs = encoder.predict(datatest)
 decoded_imgs = decoder.predict(encoded_imgs)
 
 # We make a new shape of the images vector to allow matplotlib to display our brand new images
-datatest=np.reshape(faces[19:24],(5,64,64,1))
-decoded_imgs=np.reshape(decoded_imgs,(5,64,64,1))
+datatest=np.reshape(datatest,(6,28,28,3))
+decoded_imgs=np.reshape(decoded_imgs,(6,28,28,3))
 
 """
 #######################################################################################################################################################################
@@ -166,7 +176,7 @@ pyplot.show()
 # Display of images (not interesting we won't use it in the final product)
 # just to see all the images
 
-n = 5  # How many digits we will display
+n = 6  # How many digits we will display
 pyplot.figure(figsize=(20, 4))
 for i in range(n):
     # Display original
@@ -186,16 +196,6 @@ pyplot.show()
 
 
 
-def save_in(f_name,vectors):
-    fichsauv = open(f_name,"w")
-    for vector in vectors:
-        dim=len(vector)
-        str_vect=""
-        for n in vector:
-            str_vect=str_vect+str(n)+' '
-        fichsauv.write(str_vect+"\n")
-
-save_in("vectors.txt",encoded_imgs)
 
 #
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
