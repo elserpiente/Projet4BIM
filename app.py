@@ -8,7 +8,7 @@ faces=np.reshape(faces,(len(faces),4096))
 
 autoencoder,encoder,decoder=ae.initAutoencoder()
 
-ae.trainAE(autoencoder,faces,500)
+ae.trainAE(autoencoder,faces,1000)
 
 encoded_imgs = encoder.predict(faces[19:24])
 
