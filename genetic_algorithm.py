@@ -35,6 +35,19 @@ def initialisation (N, T):               # creates a population of N genomes of 
 # Generating a gaussian noise around each point (= vector) with a variance var
 
 def gaussian_noise (P, T, var = 0.05):
+    """
+    Takes in argument a numpy array of vectors, the length of the vectors, and the variance of the gaussian noise.
+    Returns a numpy array of positive values, of the same shape as the vector in argument.
+    Ex:
+        input :
+                array[[0.1, 0.5, 0.4, 0.3],
+                      [0.8, 0.2, 0.2, 0.9]]
+                T = 4
+                var = 0.5
+        output :
+                array[[0.14, 0.47, 0.46, 0.23],
+                      [0.85, 0.19, 0.22, 0.88]]
+    """
     cov = var*np.identity(T)
     vec_with_noise = []
     for i in range (0, P.shape[0]):
@@ -48,6 +61,19 @@ def gaussian_noise (P, T, var = 0.05):
 # only if P has more than 1 vector
 
 def crossing_over (P, T, n, Tc=1):   # n has to be even
+    """
+    Takes in argument a numpy array of vectors, the length of the vectors and the number of vectors (that has to be even), and the recombination rate, that we set to 1 to get only new faces.
+    Returns a numpy array of the same shape as the vector in argument.
+    Ex:
+        input :
+                array[[0.1, 0.5, 0.4, 0.3],
+                      [0.8, 0.2, 0.2, 0.9]]
+                T = 4
+                n = 2
+        output :
+                array[[0.1, 0.5, 0.2, 0.9],
+                      [0.8, 0.2, 0.4, 0.3]]
+    """
     new_P = np.zeros((n,T))
     
     i = 0
@@ -131,7 +157,7 @@ def saveLVect(file_name,vectors):
 
 
 
-# main 
+# Main loop
 
 input_vectors = getLVect('vector.txt')
 n = input_vectors.shape[0]+1  # it works with the +1, don't ask
