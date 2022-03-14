@@ -77,7 +77,7 @@ def crossing_over (P, T, n, Tc=1):   # n has to be even
     new_P = np.zeros((n,T))
     
     i = 0
-    while i < len(new_P)-1:
+    while i < len(new_P)+1:
         if rd.random() < Tc:                                                    # only works with a certain probability Tc --> here we want as many crossings as there are genomes
             indc1 = 0
             indc2 = 0
@@ -93,7 +93,8 @@ def crossing_over (P, T, n, Tc=1):   # n has to be even
             tmp2[posc:P.shape[1]] = tmp1_tail                                   # we replace the end of indc by the end of i
 
             new_P[i] = tmp1
-            new_P[i+1] = tmp2
+            if i+1<new_P.shape[0]:
+                new_P[i+1] = tmp2
 
             i += 2
           
@@ -156,15 +157,20 @@ def saveLVect(file_name,vectors):
     print("Saved successfully")
 
 
-
+"""
 # Main loop
+for i in range(50):
+    print(rd.randint(0, 3))
 
-input_vectors = getLVect('vector.txt')
-n = input_vectors.shape[0]+1  # it works with the +1, don't ask
+#input_vectors = getLVect('vector.txt')
+input_vectors=[[0.3,0.1,0.5],[0.2,0.6,0.2],[0.2,0.8,0.2]]
+input_vectors=np.array(input_vectors)
+print(input_vectors)
+n = input_vectors.shape[0]  # it works with the +1, don't ask
 t = input_vectors.shape[1]
 noisy_vectors = gaussian_noise(input_vectors, t)
+print(noisy_vectors)
 output_vectors = crossing_over(noisy_vectors, T=t, n=n)
 print(output_vectors)
-saveLVect('new_vectors.txt', output_vectors)
 
-
+"""

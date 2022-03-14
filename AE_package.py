@@ -14,9 +14,9 @@ def initAutoencoder():
     # Definition of the input -> which shape we pass in parameter
     input_img = keras.Input(shape=(64*64*1,))
     # Our first and only encoder layer which takes our input_img as input
-    encoded = layers.Dense(latent_dim, activation='relu')(input_img)
+    encoded = layers.Dense(latent_dim, activation='relu',name='encoder')(input_img)
     # Our first and only decoder layer which takes the output of the encoder as input
-    decoded = layers.Dense(64*64*1, activation='sigmoid')(encoded)
+    decoded = layers.Dense(64*64*1, activation='sigmoid',name='decoder')(encoded)
 
     # We create the model of our autoencoder which takes the input images in
     # argument and return the decoded images
@@ -29,6 +29,7 @@ def initAutoencoder():
     # We create the model of our encoder which takes the input images in
     # argument and return the encoded images
     encoder = keras.Model(input_img, encoded)
+    encoder.compile()
 
     #######################################################################################################################################################################
     ###Decoder###
@@ -41,6 +42,7 @@ def initAutoencoder():
     # We create the model of our decoder which takes the vector of our latent space in
     # argument and return this vector decoded by our decoder layer
     decoder = keras.Model(encoded_input, decoder_layer(encoded_input))
+    decoder.compile()
 
 
     # By now we have 3 main things, our autoencoder, our encoder and our decoder
@@ -52,7 +54,7 @@ def trainAE(autoencoder,data,epochs):
     #######################################################################################################################################################################
     ###Training###
     #######################################################################################################################################################################
-
+    
     autoencoder.compile(optimizer='adam', loss='binary_crossentropy')
 
     # Here we choose a number of 500 epochs and our data to train our autoencoder
@@ -60,6 +62,22 @@ def trainAE(autoencoder,data,epochs):
     # it's mostly because the training images are really basic
     autoencoder.fit(data, data,epochs=epochs,batch_size=256, shuffle=True,validation_data=(data, data),callbacks=[TensorBoard(log_dir='/tmp/autoencoder')])
 
+def saveAutoencoder(autoencoder,encoder,decoder):
+    autoencoder.save('./AE/ae.h5')
+    encoder.save('./AE/encoder.h5')
+    decoder.save('./AE/decoder.h5')
+
+def getAutoencoder():
+    latent_dim=512
+
+    autoencoder = keras.models.load_model('./AE/ae.h5')
+    
+    encoder = keras.models.load_model('./AE/encoder.h5')
+
+    decoder = keras.models.load_model('./AE/decoder.h5')
+
+    return autoencoder,encoder,decoder
+    
     
 def testShow(dataIn,dataOut):
     # Display of images (not interesting we won't use it in the final product)
@@ -144,3 +162,26 @@ def getLVect(file_name):
     vectors=vectors*vect
     return(np.reshape(vectors,(nb_vect,len_vect)))
 
+
+from tensorflow.keras.callbacks import Callback
+import numpy as np
+import os
+
+                
+class BestModelCallback(Callback):
+
+    def __init__(self, filename= './run_dir/best-model.h5', verbose=0 ):
+        self.filename = filename
+        self.verbose  = verbose
+        self.loss     = np.Inf
+        os.makedirs( os.path.dirname(filename), mode=0o750, exist_ok=True)
+                
+    def on_train_begin(self, logs=None):
+        self.loss = np.Inf
+        
+    def on_epoch_end(self, epoch, logs=None):
+        current = logs.get("loss")
+        if current < self.loss:
+            self.loss = current
+            self.model.save(self.filename)
+            if self.verbose>0: print(f'Saved - loss={current:.6f}')
