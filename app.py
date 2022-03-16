@@ -4,7 +4,13 @@ import sklearn.datasets as dt
 import genetic_algorithm as ga
 
 faces=dt.fetch_olivetti_faces(data_home=None, shuffle=False, random_state=0, download_if_missing=True)['data']
+f=[]
+for i in range(len(faces)):
+    if i%10==0:
+        f.append(faces[i])
+faces=np.array(f)
 faces=np.reshape(faces,(len(faces),4096))
+print(len(faces))
 
 #autoencoder,encoder,decoder=ae.initAutoencoder()
 
