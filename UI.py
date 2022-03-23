@@ -1,6 +1,9 @@
 from tkinter import *
 from PIL import ImageTk, Image
 import os
+import app as a
+import numpy as np
+import skimage.color as skic
 
 class FirstStep :
 
@@ -11,6 +14,10 @@ class FirstStep :
 
         self.screen_width = self.app.winfo_screenwidth()
         self.screen_height = self.app.winfo_screenheight()
+
+        self.images_data=[]
+        self.createDB(a.faces,self.iteration)
+        
 
         self.choice = []
 
@@ -29,7 +36,7 @@ class FirstStep :
         self.FrameFace.pack(fill = BOTH, expand = TRUE)
 
         self.database_images = []
-        for i in range (1,21) :
+        for i in range (20) :
             path = './database'+str(self.iteration)+'/face'+str(i)+'.png'
             face = Image.open(path)
             face = face.resize((int(0.07*self.screen_width), int(0.10*self.screen_height)), Image.ANTIALIAS)
@@ -41,7 +48,7 @@ class FirstStep :
         for i in range (5) :
             for j in range (4) : 
                 self.checkbuttons.append(IntVar())
-                Checkbutton(self.FrameFace, text = "Face n°"+str(k+j+1), font = ('Times New Roman', 12), image = self.database_images[i], command = self.appearance_btn, compound = 'top', variable = self.checkbuttons[k+j]).grid(row=j, column=i)
+                Checkbutton(self.FrameFace, text = "Face n°"+str(k+j+1), font = ('Times New Roman', 12), image = self.database_images[j+k], command = self.appearance_btn, compound = 'top', variable = self.checkbuttons[k+j]).grid(row=j, column=i) 
             k += 4
 
         self.FrameVal = Frame(app, padx = 10, pady = 10)
@@ -66,9 +73,38 @@ class FirstStep :
         self.FrameText.pack_forget()
         self.FrameTitle.pack_forget()
         self.FrameVal.pack_forget()
-        os.system('mkdir choice'+str(self.iteration))
-        os.system('cp ./database'+str(self.iteration)+'/face'+str(self.choice[0]+1)+'.png ./database'+str(self.iteration)+'/face'+str(self.choice[1]+1)+'.png ./choice'+str(self.iteration))
+        self.saveChoices(self.choice,self.iteration)
+        im_choices=[]
+        for c in self.choice:
+            im_choices.append(a.faces[c])
+        im_choices=np.array(im_choices)
+        a.runApp(im_choices)
         self.__init__(self.app, self.iteration+1)
+
+
+    def createDB(self,database,iteration):
+        os.system('mkdir database'+str(iteration))
+        i=0
+        for f in database:
+            data=skic.gray2rgb(f)*255
+            data=np.reshape(data,(64,64,3))
+            data = data.astype(np.uint8)
+            data=Image.fromarray(data)
+            if data.mode != 'RGB':
+                data = data.convert('RGB')
+            self.images_data.append(data)
+            data.save("./database"+str(iteration)+"/face"+str(i)+".png")
+            i+=1
+
+    def saveChoices(self,choices,iteration):
+        os.system('mkdir choice'+str(iteration))
+        im_choices=[]
+        for c in choices:
+            im_choices.append(self.images_data[c+1])
+        i=0
+        for f in im_choices:
+            f.save("./choice"+str(iteration)+"/face"+str(choices[i]+1)+".png")
+            i+=1
 
 app = Tk()
 window = FirstStep(app, 0)

@@ -60,7 +60,7 @@ def gaussian_noise (P, T, var = 0.05):
 # Crossing-over function
 # only if P has more than 1 vector
 
-def crossing_over (P, T, n, Tc=1):   # n has to be even
+def crossing_over (P, T, n, m, Tc=1):   # n has to be even
     """
     Takes in argument a numpy array of vectors, the length of the vectors and the number of vectors (that has to be even), and the recombination rate, that we set to 1 to get only new faces.
     Returns a numpy array of the same shape as the vector in argument.
@@ -74,10 +74,10 @@ def crossing_over (P, T, n, Tc=1):   # n has to be even
                 array[[0.1, 0.5, 0.2, 0.9],
                       [0.8, 0.2, 0.4, 0.3]]
     """
-    new_P = np.zeros((n,T))
+    new_P = np.zeros((m,T))
     
     i = 0
-    while i < len(new_P)+1:
+    while i < len(new_P):
         if rd.random() < Tc:                                                    # only works with a certain probability Tc --> here we want as many crossings as there are genomes
             indc1 = 0
             indc2 = 0
