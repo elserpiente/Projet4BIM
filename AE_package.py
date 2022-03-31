@@ -12,11 +12,11 @@ def initAutoencoder():
     #######################################################################################################################################################################
 
     # Definition of the input -> which shape we pass in parameter
-    input_img = keras.Input(shape=(64*64*1,))
+    input_img = keras.Input(shape=(178*218*3,))
     # Our first and only encoder layer which takes our input_img as input
     encoded = layers.Dense(latent_dim, activation='relu',name='encoder')(input_img)
     # Our first and only decoder layer which takes the output of the encoder as input
-    decoded = layers.Dense(64*64*1, activation='sigmoid',name='decoder')(encoded)
+    decoded = layers.Dense(178*218*3, activation='sigmoid',name='decoder')(encoded)
 
     # We create the model of our autoencoder which takes the input images in
     # argument and return the decoded images

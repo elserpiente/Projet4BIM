@@ -1,10 +1,13 @@
 import numpy as np
 import AE_package as ae
-import sklearn.datasets as dt
+#import sklearn.datasets as dt
 import genetic_algorithm as ga
+from PIL import Image
+
 
 
 global faces
+"""
 faces=dt.fetch_olivetti_faces(data_home=None, shuffle=False, random_state=0, download_if_missing=True)['data']
 f=[]
 for i in range(len(faces)):
@@ -12,6 +15,8 @@ for i in range(len(faces)):
         f.append(faces[i])
 faces=np.array(f)
 faces=np.reshape(faces,(len(faces),4096))
+"""
+
 
 
 def runApp(data):
@@ -38,7 +43,25 @@ def runApp(data):
 
 
 ###Currently 3000 cumulated epochs
+print("start")
+j=1
+p=10
+n="00000"
+faces=[]
+for i in range(2000):
+    if j%100==0:
+        print(j)
+    if j==p:
+        p*=10
+        n=n[0:len(n)-1]
+    faces.append(np.array(Image.open("img_align_celeba/"+n+str(j)+".jpg")))
+    j+=1
+
+faces=np.reshape(np.array(faces),(2000,178*218*3))
+print("end")
+
     
-#autoencoder,encoder,decoder=ae.getAutoencoder()
-#ae.trainAE(autoencoder,faces,1000)
-#ae.saveAutoencoder(autoencoder,encoder,decoder)
+    
+autoencoder,encoder,decoder=ae.initAutoencoder()
+ae.trainAE(autoencoder,faces,1000)
+ae.saveAutoencoder(autoencoder,encoder,decoder)
