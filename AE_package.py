@@ -6,7 +6,7 @@ from matplotlib import pyplot
 
         
 def initAutoencoder():
-    latent_dim=512
+    latent_dim=1024
     #######################################################################################################################################################################
     ###Layers###
     #######################################################################################################################################################################
@@ -43,6 +43,7 @@ def initAutoencoder():
     # argument and return this vector decoded by our decoder layer
     decoder = keras.Model(encoded_input, decoder_layer(encoded_input))
     decoder.compile()
+    print("yeeees")
 
 
     # By now we have 3 main things, our autoencoder, our encoder and our decoder

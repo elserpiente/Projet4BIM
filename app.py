@@ -46,22 +46,16 @@ def runApp(data):
 print("start")
 j=1
 p=10
-n="00000"
-faces=[]
-for i in range(1000):
-    if j%100==0:
-        print(j)
-    if j==p:
-        p*=10
-        n=n[0:len(n)-1]
-    faces.append(np.array(Image.open("img_align_celeba/"+n+str(j)+".jpg")))
-    j+=1
+n="00"
+faces=["0020","0109","0119","0136","0229","0300","0307","0311","0377","0398","0450","0604","0619","0620","0689","0797","0902","0908","0971","1027","1094","2624","2668","2671","2725","2736","2743","2766","2768","2816","2900","2931","2935","3020","3036","3061","3066","3071","3077","3147","3364","3687","3690","3747","3773","3806","3864","3868","3886","3890","4018"]
+for i in range(len(faces)):
+    faces[i]=np.array(Image.open("Images/Beard/"+n+str(faces[i])+".jpg"))
 
-faces=np.reshape(np.array(faces),(1000,178*218*3))
+faces=np.reshape(np.array(faces),(51,178*218*3))
+faces=faces/255
 print("end")
 
-    
-    
-autoencoder,encoder,decoder=ae.initAutoencoder()
-ae.trainAE(autoencoder,faces,10)
+autoencoder,encoder,decoder=ae.getAutoencoder()
+#autoencoder,encoder,decoder=ae.initAutoencoder()
+ae.trainAE(autoencoder,faces,100)
 ae.saveAutoencoder(autoencoder,encoder,decoder)
