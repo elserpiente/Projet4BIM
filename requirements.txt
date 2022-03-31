@@ -1,0 +1,12 @@
+###### Requirements without Version Specifiers ######
+PIL
+os
+app
+random
+
+###### Requirements with Version Specifiers ######
+numpy >= 1.17.3
+tkinter == 8.6
+skimage >= 0.16.2
+matplotlib == 3.2.2
+keras == 2.8.0

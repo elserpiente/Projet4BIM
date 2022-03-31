@@ -31,11 +31,11 @@ def runApp(data):
 
     encoded_imgs = encoder.predict(data)
 
-    n = encoded_imgs.shape[0]  # it works with the +1, don't ask
-    t = encoded_imgs.shape[1]
     m = 20
-    noisy_vectors = ga.gaussian_noise(encoded_imgs, t)
-    output_vectors = ga.crossing_over(noisy_vectors, T=t, n=n,m=m)
+
+    # if we allow the witness to choose only 1 image, we should only apply the gaussian noise on the face and loop it to have m resulting images
+    noisy_vectors = ga.gaussian_noise(encoded_imgs, m=m)
+    output_vectors = ga.crossing_over(noisy_vectors)
 
     decoded_imgs = decoder.predict(output_vectors)
 
