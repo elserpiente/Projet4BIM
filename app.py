@@ -48,7 +48,7 @@ j=1
 p=10
 n="00000"
 faces=[]
-for i in range(2000):
+for i in range(1000):
     if j%100==0:
         print(j)
     if j==p:
@@ -57,11 +57,11 @@ for i in range(2000):
     faces.append(np.array(Image.open("img_align_celeba/"+n+str(j)+".jpg")))
     j+=1
 
-faces=np.reshape(np.array(faces),(2000,178*218*3))
+faces=np.reshape(np.array(faces),(1000,178*218*3))
 print("end")
 
     
     
 autoencoder,encoder,decoder=ae.initAutoencoder()
-ae.trainAE(autoencoder,faces,1000)
+ae.trainAE(autoencoder,faces,10)
 ae.saveAutoencoder(autoencoder,encoder,decoder)
