@@ -3,6 +3,7 @@ import AE_package as ae
 #import sklearn.datasets as dt
 import genetic_algorithm as ga
 from PIL import Image
+from matplotlib import pyplot
 
 
 
@@ -55,7 +56,18 @@ faces=np.reshape(np.array(faces),(51,178*218*3))
 faces=faces/255
 print("end")
 
-autoencoder,encoder,decoder=ae.getAutoencoder()
 #autoencoder,encoder,decoder=ae.initAutoencoder()
-ae.trainAE(autoencoder,faces,100)
-ae.saveAutoencoder(autoencoder,encoder,decoder)
+#ae.trainAE(autoencoder,faces,10)
+#ae.saveAutoencoder(autoencoder,encoder,decoder)
+
+autoencoder,encoder,decoder=ae.getAutoencoder()
+#ae.trainAE(autoencoder,faces,200)
+#ae.saveAutoencoder(autoencoder,encoder,decoder)
+
+print("deb")
+encoded_img = encoder.predict(np.array([faces[0],faces[1]]))
+decoded_img = decoder.predict(encoded_img)
+faces=np.reshape(np.array([faces[0],faces[1]]),(2,218,178,3))
+decoded_img=np.reshape(decoded_img,(2,218,178,3))
+print("fin")
+ae.testShow(faces,decoded_img)

@@ -43,8 +43,6 @@ def initAutoencoder():
     # argument and return this vector decoded by our decoder layer
     decoder = keras.Model(encoded_input, decoder_layer(encoded_input))
     decoder.compile()
-    print("yeeees")
-
 
     # By now we have 3 main things, our autoencoder, our encoder and our decoder
     # they aren't in the same variables but use the same layers so when we train wether one
@@ -69,14 +67,13 @@ def saveAutoencoder(autoencoder,encoder,decoder):
     decoder.save('./AE/decoder.h5')
 
 def getAutoencoder():
-    latent_dim=512
-
+    print("0")
     autoencoder = keras.models.load_model('./AE/ae.h5')
-    
+    print("1")
     encoder = keras.models.load_model('./AE/encoder.h5')
-
+    print("2")
     decoder = keras.models.load_model('./AE/decoder.h5')
-
+    print("3")
     return autoencoder,encoder,decoder
     
     
