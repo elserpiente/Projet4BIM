@@ -160,7 +160,7 @@ def getLVect(file_name):
     vectors=vectors*vect
     return(np.reshape(vectors,(nb_vect,len_vect)))
 
-
+import tensorflow
 from tensorflow.keras.callbacks import Callback
 import numpy as np
 import os
