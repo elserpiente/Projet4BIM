@@ -1,8 +1,4 @@
-###### Requirements without Version Specifiers ######
-PIL
-os
-app
-random
+
 
 ###### Requirements with Version Specifiers ######
 numpy >= 1.17.3
