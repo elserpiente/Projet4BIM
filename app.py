@@ -1,6 +1,6 @@
 import numpy as np
 import AE_package as ae
-#import sklearn.datasets as dt
+import sklearn.datasets as dt
 import genetic_algorithm as ga
 from PIL import Image
 from matplotlib import pyplot
@@ -8,7 +8,7 @@ from matplotlib import pyplot
 
 
 global faces
-"""
+
 faces=dt.fetch_olivetti_faces(data_home=None, shuffle=False, random_state=0, download_if_missing=True)['data']
 f=[]
 for i in range(len(faces)):
@@ -16,7 +16,7 @@ for i in range(len(faces)):
         f.append(faces[i])
 faces=np.array(f)
 faces=np.reshape(faces,(len(faces),4096))
-"""
+
 
 
 
@@ -42,7 +42,11 @@ def runApp(data):
 
     faces=decoded_imgs
 
+<<<<<<< Updated upstream
 """
+=======
+'''
+>>>>>>> Stashed changes
 ###Currently 3000 cumulated epochs
 print("start")
 j=1
@@ -71,4 +75,8 @@ faces=np.reshape(np.array([faces[0],faces[1]]),(2,218,178,3))
 decoded_img=np.reshape(decoded_img,(2,218,178,3))
 print("fin")
 ae.testShow(faces,decoded_img)
+<<<<<<< Updated upstream
 """
+=======
+'''
+>>>>>>> Stashed changes
