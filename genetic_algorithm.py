@@ -37,26 +37,26 @@ def gaussian_noise (P, m, var):
 
     Parameters
     ----------
-	P : numpy array
-		Numpy array of vector(s) on which the noise will be applied 
-	m : int
-		Number of noisy vectors returned if only one vector is presented in the input array 
-	var : float
-		Variance of the gaussian noise, in [0,1]
+    P : numpy array
+        Numpy array of vector(s) on which the noise will be applied 
+    m : int
+        Number of noisy vectors returned if only one vector is presented in the input array 
+    var : float
+        Variance of the gaussian noise, in [0,1]
 
-	Returns
-	-------
-	numpy array
-		Numpy array of noisy vectors of positive values (either m vectors or the same number as in the input array)
+    Returns
+    -------
+    numpy array
+        Numpy array of noisy vectors of positive values (either m vectors or the same number as in the input array)
     
     Example
     -------
     >>> P = np.array([[0.1, 0.5, 0.4, 0.3],
                       [0.8, 0.2, 0.2, 0.9]])
     >>> var = 0.05
-	>>> m = 2 # useless here, becaus P contains more than 1 vector
-	>>> gaussian_noise (P, m, var)
-	array([[0.14, 0.47, 0.46, 0.23],
+    >>> m = 2 # useless here, becaus P contains more than 1 vector
+    >>> gaussian_noise (P, m, var)
+    array([[0.14, 0.47, 0.46, 0.23],
            [0.85, 0.19, 0.22, 0.88]])
     """
 
@@ -84,35 +84,35 @@ def crossing_over (P, m, Tc=1):
 
     Parameters
     ----------
-	P : numpy array
-		Numpy array of at least 2 vectors on which the noise will be applied 
-	m : int
-		Number of recombined vectors returned
-	Tc : float
-		Probability of recombination, in [0,1], set to 1 by default
+    P : numpy array
+        Numpy array of at least 2 vectors on which the noise will be applied 
+    m : int
+        Number of recombined vectors returned
+    Tc : float
+        Probability of recombination, in [0,1], set to 1 by default
 
-	Returns
-	-------
-	numpy array
-		Numpy array of m recombined vectors
+    Returns
+    -------
+    numpy array
+        Numpy array of m recombined vectors
 
-	Raises
-	------
-	ValueError
-		If P contains less than 2 vectors.
+    Raises
+    ------
+    ValueError
+        If P contains less than 2 vectors.
     
     Example
     -------
     >>> P = np.array([[0.1, 0.5, 0.4, 0.3],
                       [0.8, 0.2, 0.2, 0.9]])
-	>>> m = 2
-	>>> crossing_over (P, m)
-	array([[0.1, 0.5, 0.2, 0.9],
+    >>> m = 2
+    >>> crossing_over (P, m)
+    array([[0.1, 0.5, 0.2, 0.9],
            [0.8, 0.2, 0.4, 0.3]])
     """
     
     if P.shape[0] <= 1:
-    	raise ValueError("The input array P has to contain at least 2 vectors.")
+        raise ValueError("The input array P has to contain at least 2 vectors.")
 
     new_P = np.zeros((m, P.shape[1]))
 
@@ -147,30 +147,36 @@ def crossing_over (P, m, Tc=1):
 
 def unitary_test_1_vector_cross ():
 
-	try:
-		myPop = initialisation(1, 10)
-		print(myPop)
-		myNoisyPop = gaussian_noise(P=myPop, m=6, var=0.05)
-		print(myNoisyPop)
-		print(crossing_over(P=myNoisyPop, m=6))
-		return True
-	except ValueError:
-		return False
+    try:
+        myPop = initialisation(1, 10)
+        print(myPop)
+        myNoisyPop = gaussian_noise(P=myPop, m=6, var=0.05)
+        print(myNoisyPop)
+        print(crossing_over(P=myNoisyPop, m=6))
+        return True
+    except ValueError:
+        return False
 
 print(unitary_test_1_vector_cross())
 
 
 def unitary_test_1_vector_noise():
-	myPop = initialisation(1, 10)
-	print(myPop)
-	m = 3
-	myNoisyPop = gaussian_noise(P=myPop, m=m, var=0) # we set a nil variance so that the output should be 3 times the same vector
-	print(myNoisyPop)
-	if myNoisyPop.shape[0] == m:
-		if myNoisyPop[0] == myNoisyPop[1] and myNoisyPop[1] == myNoisyPop[2]:
-			return True
-	else:
-		return False
+    myPop = initialisation(1, 10)
+    print(myPop)
+    m = 3
+    myNoisyPop = gaussian_noise(P=myPop, m=m, var=0) # we set a nil variance so that the output should be 3 times the same vector
+    print(myNoisyPop)
+    r=True
+    if myNoisyPop.shape[0] == m:
+            for vec in myNoisyPop:
+                i=0
+                for val in vec:
+                    if val!=myPop[0][i]:
+                        r=False
+                    i+=1
+            return r
+    else:
+        return False
 
 print(unitary_test_1_vector_noise())
 

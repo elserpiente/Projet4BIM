@@ -68,13 +68,13 @@ def saveAutoencoder(autoencoder,encoder,decoder):
 
 def getAutoencoder():
     print("0")
-    autoencoder = keras.models.load_model('./AE/ae.h5')
+    #autoencoder = keras.models.load_model('./AE/ae.h5')
     print("1")
     encoder = keras.models.load_model('./AE/encoder.h5')
     print("2")
     decoder = keras.models.load_model('./AE/decoder.h5')
     print("3")
-    return autoencoder,encoder,decoder
+    return encoder,decoder
     
     
 def testShow(dataIn,dataOut):

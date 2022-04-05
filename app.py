@@ -18,11 +18,13 @@ faces=np.array(f)
 faces=np.reshape(faces,(len(faces),4096))
 """
 
-global faces
+global faces,decoder,encoder
+encoder,decoder=ae.getAutoencoder()
+print("AE done")
 n="00"
 faces=["0020","0109","0119","0136","0229","0300","0307","0311","0377","0398","0450","0604","0619","0620","0689","0797","0902","0908","0971","1027","1094","2624","2668","2671","2725","2736","2743","2766","2768","2816","2900","2931","2935","3020","3036","3061","3066","3071","3077","3147","3364","3687","3690","3747","3773","3806","3864","3868","3886","3890","4018"]
 for i in range(len(faces)):
-    faces[i]=np.array(Image.open("Images/Beard/"+n+str(faces[i])+".jpg"))
+    faces[i]=np.array(Image.open("Images/Beard/"+n+str(faces[i])+".jpg"))/255
 
 def choice(characteristics):
     global faces
@@ -33,9 +35,9 @@ def choice(characteristics):
         
 
 def runApp(data,var):
-    global faces
+    global faces,encoder,decoder
 
-    autoencoder,encoder,decoder=ae.getAutoencoder()
+    data=np.reshape(data,(len(data),218*178*3))
 
     encoded_imgs = encoder.predict(data)
 
@@ -44,15 +46,15 @@ def runApp(data,var):
     # if we allow the witness to choose only 1 image, we should only apply the gaussian noise on the face and loop it to have m resulting images
 
     
-    noisy_vectors = ga.gaussian_noise(encoded_imgs, m=m,var=0.05+var/100)
+    noisy_vectors = ga.gaussian_noise(encoded_imgs, m=m,var=0.05+var.get()/100)
     if len(data)>1:
-        output_vectors = ga.crossing_over(noisy_vectors)
+        output_vectors = ga.crossing_over(noisy_vectors,m)
     else:
         output_vectors = noisy_vectors
 
     decoded_imgs = decoder.predict(output_vectors)
 
-    faces=decoded_imgs
+    faces=np.reshape(decoded_imgs,(len(decoded_imgs),218,178,3))
 
 
 """

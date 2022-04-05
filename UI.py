@@ -176,7 +176,7 @@ class Window :
 
         self.database_images = []
         for i in range (20) :
-            path = './database'+str(self.iteration-1)+'/face'+str(i)+'.png'
+            path = './database'+str(self.iteration)+'/face'+str(i)+'.png'
             face = Image.open(path)
             face = face.resize((int(0.07*self.screen_width), int(0.10*self.screen_height)), Image.ANTIALIAS)
             face_img = ImageTk.PhotoImage(face)
@@ -387,10 +387,12 @@ class Window :
         -------
         None
         """
+        if iteration==0:
+            iteration+=1
         os.system('mkdir database'+str(iteration))
         i=0
         for f in database:
-            data=np.reshape(f,(218,178,3))
+            data=np.reshape(f,(218,178,3))*255
             data = data.astype(np.uint8)
             data=Image.fromarray(data)
             if data.mode != 'RGB':
@@ -398,6 +400,7 @@ class Window :
             self.images_data.append(data)
             data.save("./database"+str(iteration)+"/face"+str(i)+".png")
             i+=1
+            
 
     def saveChoices(self,choices,iteration):
         """ This function saves the faces' choice of the user in a new folder
