@@ -18,9 +18,29 @@ class Window :
 
     Methods
     -------
-
+    __init__(app, iteration):
+        Constructor of all the necessary attributes for the Window object
+    first_page():
+        A function to create the first page of the interface
+    second_page():
+        A function to create the pages of the main steps of our software
+    final_page():
+        A function to create the final page of the software
+    carac_choice():
+        This function is saving and sending the attributes's choice of the victim to the 'app.py' file
+    appearance_btn():
+        This function allows the `btn_attrib` and the `btn_end` buttons to be available or not for the user to press
+    end():
+        This function opens the last page and saves the final choice of the victim
+    reset():
+        This function allows the user to reset the simulation and to start again from the beginning
+    face_choice():
+        This function is the main function of the software compilation
+    createDB(database, iteration):
+        This function creates a database of faces in a folder
+    saveChoices(choices, iteration):
+        This function saves the faces' choice of the user in a new folder
     """
-
     def __init__ (self, app, iteration) :
         """ Constructor of all the necessary attributes for the Window object
 
@@ -36,7 +56,11 @@ class Window :
         AttributeError
             The ``Raises`` section is a list of all exceptions that are relevant to the interface.
         ValueError
-            If `iteration` is not an integer or not positive
+            If `iteration` is not positive
+        TypeError
+            If `iteration` is not an integer
+        NameError
+            If `a.faces` doesn't exist
 
         Returns
         -------
@@ -45,11 +69,12 @@ class Window :
         Unitary Test
         ------------
         >>> from tkinter import *
+        >>> import app as a
         >>> app = Tk()
         >>> w = Window(app, 0.5)
         Traceback (most recent call last):
         ...
-        ValueError: iteration must be an integer
+        TypeError: iteration must be an integer
         >>> w = Window(app, -2)
         Traceback (most recent call last):
         ...
@@ -58,7 +83,7 @@ class Window :
         """
         self.app = app
         if type(iteration) != int :
-            raise ValueError("iteration must be an integer")
+            raise TypeError("iteration must be an integer")
         elif iteration < 0 :
             raise ValueError("iteration must be positive")
         else :
@@ -151,7 +176,7 @@ class Window :
 
         self.database_images = []
         for i in range (20) :
-            path = './database'+str(self.iteration)+'/face'+str(i)+'.png'
+            path = './database'+str(self.iteration-1)+'/face'+str(i)+'.png'
             face = Image.open(path)
             face = face.resize((int(0.07*self.screen_width), int(0.10*self.screen_height)), Image.ANTIALIAS)
             face_img = ImageTk.PhotoImage(face)
@@ -226,9 +251,12 @@ class Window :
                     self.choice_carac.append(self.attributes[x+y])
                 x += 1
             y += 3
+        # Ligne à décommenter quand la fonction de choix de app est créée
+        a.choice(self.choice_carac)
         self.FrameAttributes.pack_forget()
         self.FrameText.pack_forget()
         self.FrameVal.pack_forget()
+        self.iteration += 1
         self.second_page()
 
     def appearance_btn(self) :
@@ -340,7 +368,7 @@ class Window :
         for c in self.choice:
             im_choices.append(a.faces[c])
         im_choices=np.array(im_choices)
-        a.runApp(im_choices)
+        a.runApp(im_choices, self.var_scale)
         self.__init__(self.app, self.iteration+1)
 
     def createDB(self,database,iteration):
@@ -362,8 +390,7 @@ class Window :
         os.system('mkdir database'+str(iteration))
         i=0
         for f in database:
-            data=skic.gray2rgb(f)*255
-            data=np.reshape(data,(64,64,3))
+            data=np.reshape(f,(218,178,3))
             data = data.astype(np.uint8)
             data=Image.fromarray(data)
             if data.mode != 'RGB':
