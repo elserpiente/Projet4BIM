@@ -32,20 +32,34 @@ def initialisation (N, T):               # creates a population of N genomes of 
 
 # Generating a gaussian noise around each point (= vector) with a variance var
 
-def gaussian_noise (P, var = 0.05):
-    """
-    Takes in argument a numpy array of vectors P and the variance var of the gaussian noise.
-    Returns a numpy array of positive values, of the same shape as the vector in argument.
-    Ex:
-        input :
-                array[[0.1, 0.5, 0.4, 0.3],
-                      [0.8, 0.2, 0.2, 0.9]]
-                var = 0.5
+def gaussian_noise (P, m, var):
+    """ Apply a gaussian noise on the values of one or several vectors.
 
-        output :
-                array[[0.14, 0.47, 0.46, 0.23],
-                      [0.85, 0.19, 0.22, 0.88]]
+    Parameters
+    ----------
+	P : numpy array
+		Numpy array of vector(s) on which the noise will be applied 
+	m : int
+		Number of noisy vectors returned if only one vector is presented in the input array 
+	var : float
+		Variance of the gaussian noise, in [0,1]
+
+	Returns
+	-------
+	numpy array
+		Numpy array of noisy vectors of positive values (either m vectors or the same number as in the input array)
+    
+    Example
+    -------
+    >>> P = np.array([[0.1, 0.5, 0.4, 0.3],
+                      [0.8, 0.2, 0.2, 0.9]])
+    >>> var = 0.05
+	>>> m = 2 # useless here, becaus P contains more than 1 vector
+	>>> gaussian_noise (P, m, var)
+	array([[0.14, 0.47, 0.46, 0.23],
+           [0.85, 0.19, 0.22, 0.88]])
     """
+
     cov = var*np.identity(P.shape[1])
     vec_with_noise = []
     for i in range (0, P.shape[0]):
@@ -61,18 +75,37 @@ def gaussian_noise (P, var = 0.05):
 # only if P has more than 1 vector
 
 def crossing_over (P, m, Tc=1):   
+    """ Recombinate all the vectors of a numpy array, by exchanging heads and tails of random length.
+
+    Parameters
+    ----------
+	P : numpy array
+		Numpy array of at least 2 vectors on which the noise will be applied 
+	m : int
+		Number of recombined vectors returned
+	Tc : float
+		Probability of recombination, in [0,1], set to 1 by default
+
+	Returns
+	-------
+	numpy array
+		Numpy array of m recombined vectors
+
+	Raises
+	------
+	ValueError
+		If P contains less than 2 vectors.
+    
+    Example
+    -------
+    >>> P = np.array([[0.1, 0.5, 0.4, 0.3],
+                      [0.8, 0.2, 0.2, 0.9]])
+	>>> m = 2
+	>>> crossing_over (P, m)
+	array([[0.1, 0.5, 0.2, 0.9],
+           [0.8, 0.2, 0.4, 0.3]])
     """
-    Takes in argument a numpy array P of at least 2 vectors, the number of resulting vectors m, and the recombination rate Tc, that we set to 1 to get only new faces.
-    Returns a numpy array of the same shape as P in argument.
-    Ex:
-        input :
-                array[[0.1, 0.5, 0.4, 0.3],
-                      [0.8, 0.2, 0.2, 0.9]]
-                
-        output :
-                array[[0.1, 0.5, 0.2, 0.9],
-                      [0.8, 0.2, 0.4, 0.3]]
-    """
+    
     if P.shape[0] <= 1:
     	raise ValueError("The input array P has to contain at least 2 vectors.")
 
@@ -112,7 +145,7 @@ def unitary_test_1_vector ():
 	try:
 		myPop = initialisation(1, 10)
 		print(myPop)
-		myNoisyPop = gaussian_noise(P=myPop)
+		myNoisyPop = gaussian_noise(P=myPop, var=0.05)
 		print(myNoisyPop)
 		print(crossing_over(P=myNoisyPop, m=6))
 		return True
@@ -120,6 +153,7 @@ def unitary_test_1_vector ():
 		return False
 
 print(unitary_test_1_vector())
+
 
 
 """
