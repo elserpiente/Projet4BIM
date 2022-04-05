@@ -42,7 +42,7 @@ def runApp(data):
 
     faces=decoded_imgs
 
-
+"""
 ###Currently 3000 cumulated epochs
 print("start")
 j=1
@@ -71,3 +71,4 @@ faces=np.reshape(np.array([faces[0],faces[1]]),(2,218,178,3))
 decoded_img=np.reshape(decoded_img,(2,218,178,3))
 print("fin")
 ae.testShow(faces,decoded_img)
+"""
