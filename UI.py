@@ -176,7 +176,7 @@ class Window :
 
         self.database_images = []
         for i in range (20) :
-            path = './database'+str(self.iteration)+'/face'+str(i)+'.png'
+            path = './database'+str(self.iteration-1)+'/face'+str(i)+'.png'
             face = Image.open(path)
             face = face.resize((int(0.07*self.screen_width), int(0.10*self.screen_height)), Image.ANTIALIAS)
             face_img = ImageTk.PhotoImage(face)
@@ -242,51 +242,21 @@ class Window :
         Returns
         -------
         None
-
-        Raises
-        ------
-        AttributeError
-            The ``Raises`` section is a list of all exceptions that are relevant to the interface.
-        ValueError
-            If `checkbuttons_attrib` is empty
-        TypeError
-            If `checkbuttons_attrib[carac]` is not an IntVar
-        
-        Unitary Test
-        ------------
-        >>> from tkinter import *
-        >>> app = Tk()
-        >>> w = Window(app, 0)
-        >>> w.checkbuttons_attrib = []
-        >>> w.carac_choice()
-        Traceback (most recent call last):
-        ...
-        ValueError: The `checkbuttons_attrib` list is empty
-        >>> w.checkbuttons_attrib = [BooleanVar(), BooleanVar()]
-        >>> w.carac_choice()
-        Traceback (most recent call last):
-        ...
-        TypeError: The variables of the `checkbuttons_attrib` list are not of IntVar type
         """
         y = 0
-        if len(self.checkbuttons_attrib) == 0 :
-            raise ValueError("The `checkbuttons_attrib` list is empty")
-        else :
-            for type in self.checkbuttons_attrib :
-                x = 0
-                if type(type) != IntVar :
-                    raise TypeError("The variables of the `checkbuttons_attrib` list are not of IntVar type")
-                else : 
-                    for carac in type :
-                        if carac.get() == 1 :
-                            self.choice_carac.append(self.attributes[x+y])
-                        x += 1
-                    y += 3
+        for type in self.checkbuttons_attrib :
+            x = 0
+            for carac in type :
+                if carac.get() == 1 :
+                    self.choice_carac.append(self.attributes[x+y])
+                x += 1
+            y += 3
         # Ligne à décommenter quand la fonction de choix de app est créée
-        # a.choice(self.choice_carac)
+        a.choice(self.choice_carac)
         self.FrameAttributes.pack_forget()
         self.FrameText.pack_forget()
         self.FrameVal.pack_forget()
+        self.iteration += 1
         self.second_page()
 
     def appearance_btn(self) :
@@ -398,7 +368,7 @@ class Window :
         for c in self.choice:
             im_choices.append(a.faces[c])
         im_choices=np.array(im_choices)
-        a.runApp(im_choices)
+        a.runApp(im_choices, self.var_scale)
         self.__init__(self.app, self.iteration+1)
 
     def createDB(self,database,iteration):
@@ -420,8 +390,7 @@ class Window :
         os.system('mkdir database'+str(iteration))
         i=0
         for f in database:
-            data=skic.gray2rgb(f)*255
-            data=np.reshape(data,(64,64,3))
+            data=np.reshape(f,(218,178,3))
             data = data.astype(np.uint8)
             data=Image.fromarray(data)
             if data.mode != 'RGB':

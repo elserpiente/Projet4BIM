@@ -32,7 +32,7 @@ def initialisation (N, T):               # creates a population of N genomes of 
 
 # Generating a gaussian noise around each point (= vector) with a variance var
 
-def gaussian_noise (P, var = 0.05):
+def gaussian_noise (P,m, var = 0.05):
     """
     Takes in argument a numpy array of vectors P and the variance var of the gaussian noise.
     Returns a numpy array of positive values, of the same shape as the vector in argument.
@@ -46,10 +46,15 @@ def gaussian_noise (P, var = 0.05):
                 array[[0.14, 0.47, 0.46, 0.23],
                       [0.85, 0.19, 0.22, 0.88]]
     """
+        
     cov = var*np.identity(P.shape[1])
     vec_with_noise = []
-    for i in range (0, P.shape[0]):
-        vec_with_noise.append(np.random.multivariate_normal(P[i], cov))
+    if P.shape[0]==1:
+        for i in range (m):
+            vec_with_noise.append(np.random.multivariate_normal(P[0], cov))
+    else:
+        for i in range (0, P.shape[0]):
+            vec_with_noise.append(np.random.multivariate_normal(P[i], cov))
     array_with_noise = np.array(vec_with_noise) 
     positive_array_with_noise = np.abs(vec_with_noise)   # makes sure that values are > 0 
     return positive_array_with_noise           
@@ -112,7 +117,7 @@ def unitary_test_1_vector ():
 	try:
 		myPop = initialisation(1, 10)
 		print(myPop)
-		myNoisyPop = gaussian_noise(P=myPop)
+		myNoisyPop = gaussian_noise(P=myPop,m=6)
 		print(myNoisyPop)
 		print(crossing_over(P=myNoisyPop, m=6))
 		return True
