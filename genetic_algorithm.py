@@ -62,12 +62,13 @@ def gaussian_noise (P, m, var):
 
     cov = var*np.identity(P.shape[1])
     vec_with_noise = []
-    if P.shape[0]==1:
+    if P.shape[0] == 1:
         for i in range (m):
             vec_with_noise.append(np.random.multivariate_normal(P[0], cov))
     else:
         for i in range (0, P.shape[0]):
             vec_with_noise.append(np.random.multivariate_normal(P[i], cov))
+            
     array_with_noise = np.array(vec_with_noise) 
     positive_array_with_noise = np.abs(vec_with_noise)   # makes sure that values are > 0 
     return positive_array_with_noise           
@@ -140,11 +141,11 @@ def crossing_over (P, m, Tc=1):
     return new_P
 
 
+#########################################################################################################################################
+### Unitary tests ###
+#########################################################################################################################################
 
-
-### Tests ###
-
-def unitary_test_1_vector ():
+def unitary_test_1_vector_cross ():
 
 	try:
 		myPop = initialisation(1, 10)
@@ -156,8 +157,22 @@ def unitary_test_1_vector ():
 	except ValueError:
 		return False
 
-print(unitary_test_1_vector())
+print(unitary_test_1_vector_cross())
 
+
+def unitary_test_1_vector_noise():
+	myPop = initialisation(1, 10)
+	print(myPop)
+	m = 3
+	myNoisyPop = gaussian_noise(P=myPop, m=m, var=0) # we set a nil variance so that the output should be 3 times the same vector
+	print(myNoisyPop)
+	if myNoisyPop.shape[0] == m:
+		if myNoisyPop[0] == myNoisyPop[1] and myNoisyPop[1] == myNoisyPop[2]:
+			return True
+	else:
+		return False
+
+print(unitary_test_1_vector_noise())
 
 
 """
