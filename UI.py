@@ -91,6 +91,7 @@ class Window :
         self.screen_height = self.app.winfo_screenheight()
 
         self.images_data=[]
+        self.images_data[:] = []
         self.createDB(a.faces,self.iteration)
         
         self.choice = []
@@ -377,7 +378,7 @@ class Window :
         a.runApp(im_choices, self.var_scale)
         self.__init__(self.app, self.iteration+1)
 
-    def createDB(self,database,iteration):
+    def createDB(database,iteration):
         """ This function creates a database of faces in a folder
 
         The name of the folder is a concatenation of 'database' and the iteration of the software.
@@ -406,28 +407,24 @@ class Window :
 
         Unitary Tests
         -------------
-        >>> from tkinter import *
         >>> from PIL import Image
-        >>> import app as a
-        >>> app = Tk()
-        >>> w = Window(app, 0)
-        >>> w.createDB([],0.5)
+        >>> createDB([],0.5)
         Traceback (most recent call last):
         ...
         TypeError: The iteration parameter is not an integer
-        >>> w.createDB([],-1)
+        >>> createDB([],-1)
         Traceback (most recent call last):
         ...
         ValueError: The iteration parameter is not positive
-        >>> w.createDB([],0)
+        >>> createDB([],0)
         Traceback (most recent call last):
         ...
         ValueError: The database is empty
-        >>> w.createDB([1,2,3],0)
+        >>> createDB([1,2,3],0)
         Traceback (most recent call last):
         ...
         TypeError: The content of the database is not an Image
-        >>> w.createDB([Image.new(RGB, [20,20])],0)
+        >>> createDB([Image.new(RGB, [20,20])],0)
         ok
         """
         if type(iteration) != int :
@@ -506,6 +503,7 @@ class Window :
         Traceback (most recent call last):
         ...
         ValueError: choices is empty
+        >>> app.destroy()
         """
         if type(iteration) != int :
             raise TypeError("The iteration parameter is not an integer")
