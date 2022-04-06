@@ -59,8 +59,6 @@ class Window :
             If `iteration` is not positive
         TypeError
             If `iteration` is not an integer
-        NameError
-            If `a.faces` doesn't exist
 
         Returns
         -------
@@ -133,6 +131,7 @@ class Window :
         self.FrameAttributes = Frame(self.app, padx = int(0.33*self.screen_width), pady = 10)
         self.FrameAttributes.pack(fill = BOTH, expand = TRUE)
         self.checkbuttons_attrib = []
+        self.checkbuttons_attrib[:] = []
         k = 0
         self.attributes = ["Fair_Hair","Dark_Hair","Bald","Mustache","Beard","Beardless","Pale_Skin","Intermediate_Skin","Dark_Skin"]
         Label(self.FrameAttributes, text = "CHARACTERISTICS", font = ('Times New Roman', 24, 'italic')).grid(row = 0, column = 1, padx = 10, pady = 10)
@@ -169,12 +168,13 @@ class Window :
         self.FrameText.pack(fill = BOTH, expand = TRUE)
         Label(self.FrameText, text = '''You can see 20 faces in front of you and you have to pick two of them that are 
         the closest ones from your agressor. When you are sure about your choice, please press the "Validate"
-        button in order to go to the next step !''', font = ('Times New Roman', 20, 'italic')).place(anchor = CENTER, relx=.5, rely=.5)
+        button in order to go to the next step !''', font = ('Times New Roman', 18, 'italic')).place(anchor = CENTER, relx=.5, rely=.5)
 
         self.FrameFace = Frame(self.app, relief = GROOVE, borderwidth = 5, padx = int(0.27*self.screen_width), background = 'beige', pady = 10)
         self.FrameFace.pack(fill = BOTH, expand = TRUE)
 
         self.database_images = []
+        self.database_images[:] = []
         for i in range (20) :
             path = './database'+str(self.iteration)+'/face'+str(i)+'.png'
             face = Image.open(path)
@@ -183,6 +183,7 @@ class Window :
             self.database_images.append(face_img)
 
         self.checkbuttons = []
+        self.checkbuttons[:] = []
         k = 0
         for i in range (5) :
             for j in range (4) : 
@@ -222,6 +223,11 @@ class Window :
 
         self.FrameFace = Frame(self.app, relief = GROOVE, borderwidth = 5, padx = int(0.27*self.screen_width), background = 'beige', pady = 10)
         self.FrameFace.pack(fill = BOTH, expand = TRUE)
+        path = './database'+str(self.iteration)+'/face'+str(self.choice[0])+'.png'
+        face = Image.open(path)
+        canvas = Canvas(self.FrameFace, width=0.2*self.screen_width, height=0.2*self.screen_height)
+        canvas.pack()
+        canvas.create_image(int(0.2*self.screen_width), int(0.2*self.screen_height), image = face)
 
         self.FrameVal = Frame(app, padx = 10, pady = 10)
         self.FrameVal.pack(fill = BOTH, expand = TRUE)
@@ -383,23 +389,66 @@ class Window :
         iteration : int
             step iterator of the application associated with the index of the pages of the application
 
+        Raises
+        ------
+        ValueError
+            If `database` is empty
+        ValueError
+            If `iteration` is not positive
+        TypeError
+            If `iteration` is not an integer
+        TypeError
+            If the content of `database` is not an Image
+
         Returns
         -------
         None
+
+        Unitary Tests
+        -------------
+        >>> createDB([],0.5)
+        Traceback (most recent call last):
+        ...
+        TypeError: The iteration parameter is not an integer
+        >>> createDB([],-1)
+        Traceback (most recent call last):
+        ...
+        ValueError: The iteration parameter is not positive
+        >>> createDB([],0)
+        Traceback (most recent call last):
+        ...
+        ValueError: The database is empty
+        >>> createDB([1,2,3],0)
+        Traceback (most recent call last):
+        ...
+        TypeError: The content of the database is not an Image
+        >>> createDB([Image.new(RGB, [20,20])],0)
+        ok
         """
-        if iteration==0:
-            iteration+=1
-        os.system('mkdir database'+str(iteration))
-        i=0
-        for f in database:
-            data=np.reshape(f,(218,178,3))*255
-            data = data.astype(np.uint8)
-            data=Image.fromarray(data)
-            if data.mode != 'RGB':
-                data = data.convert('RGB')
-            self.images_data.append(data)
-            data.save("./database"+str(iteration)+"/face"+str(i)+".png")
-            i+=1
+        if type(iteration) != int :
+            raise TypeError("The iteration parameter is not an integer")
+        elif iteration < 0 : 
+            raise ValueError('The iteration parameter is not positive')
+        else :
+            if iteration == 0:
+                iteration += 1
+            os.system('mkdir database'+str(iteration))
+            i = 0
+            if len(database) == 0 :
+                raise ValueError("The database is empty")
+            else :
+                for f in database:
+                    if type(f) != Image :
+                        raise TypeError("The content of the database is not an Image")
+                    else :
+                        data=np.reshape(f,(218,178,3))*255
+                        data = data.astype(np.uint8)
+                        data=Image.fromarray(data)
+                        if data.mode != 'RGB':
+                            data = data.convert('RGB')
+                        self.images_data.append(data)
+                        data.save("./database"+str(iteration)+"/face"+str(i)+".png")
+                        i += 1
             
 
     def saveChoices(self,choices,iteration):
@@ -415,18 +464,58 @@ class Window :
         iteration : int
             step iterator of the application associated with the index of the pages of the application
 
+        Raises
+        ------
+        ValueError
+            If `iteration` is not positive
+        TypeError
+            If `iteration` is not an integer
+        ValueError
+            If `choices` is empty
+        TypeError
+            If the content of `choices` is not a positive integer
+
         Returns
         -------
         None
+
+        Unitary Tests
+        -------------
+        >>> saveChoices([],0.5)
+        Traceback (most recent call last):
+        ...
+        TypeError: The iteration parameter is not an integer
+        >>> saveChoices([],-1)
+        Traceback (most recent call last):
+        ...
+        ValueError: The iteration parameter is not positive
+        >>> saveChoices([-0.5],0)
+        Traceback (most recent call last):
+        ...
+        TypeError: c is not positive or not an integer
+        >>> saveChoices([],0)
+        Traceback (most recent call last):
+        ...
+        ValueError: choices is empty
         """
-        os.system('mkdir choice'+str(iteration))
-        im_choices=[]
-        for c in choices:
-            im_choices.append(self.images_data[c+1])
-        i=0
-        for f in im_choices:
-            f.save("./choice"+str(iteration)+"/face"+str(choices[i]+1)+".png")
-            i+=1
+        if type(iteration) != int :
+            raise TypeError("The iteration parameter is not an integer")
+        elif iteration < 0 : 
+            raise ValueError('The iteration parameter is not positive')
+        else :
+            os.system('mkdir choice'+str(iteration))
+            im_choices=[]
+            if len(choices) == 0 :
+                raise ValueError("choices is empty")
+            else :
+                for c in choices:
+                    if type(c) != int and c < 0 :
+                        raise TypeError("c is not positive or not an integer")
+                    im_choices.append(self.images_data[c+1])
+                i=0
+                for f in im_choices:
+                    f.save("./choice"+str(iteration)+"/face"+str(choices[i]+1)+".png")
+                    i+=1
 
 if __name__ == '__main__' :
     doctest.testmod(verbose = True)
