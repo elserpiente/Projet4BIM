@@ -406,23 +406,28 @@ class Window :
 
         Unitary Tests
         -------------
-        >>> createDB([],0.5)
+        >>> from tkinter import *
+        >>> from PIL import Image
+        >>> import app as a
+        >>> app = Tk()
+        >>> w = Window(app, 0)
+        >>> w.createDB([],0.5)
         Traceback (most recent call last):
         ...
         TypeError: The iteration parameter is not an integer
-        >>> createDB([],-1)
+        >>> w.createDB([],-1)
         Traceback (most recent call last):
         ...
         ValueError: The iteration parameter is not positive
-        >>> createDB([],0)
+        >>> w.createDB([],0)
         Traceback (most recent call last):
         ...
         ValueError: The database is empty
-        >>> createDB([1,2,3],0)
+        >>> w.createDB([1,2,3],0)
         Traceback (most recent call last):
         ...
         TypeError: The content of the database is not an Image
-        >>> createDB([Image.new(RGB, [20,20])],0)
+        >>> w.createDB([Image.new(RGB, [20,20])],0)
         ok
         """
         if type(iteration) != int :
@@ -481,19 +486,23 @@ class Window :
 
         Unitary Tests
         -------------
-        >>> saveChoices([],0.5)
+        >>> from tkinter import *
+        >>> import app as a
+        >>> app = Tk()
+        >>> w = Window(app, 0)
+        >>> w.saveChoices([],0.5)
         Traceback (most recent call last):
         ...
         TypeError: The iteration parameter is not an integer
-        >>> saveChoices([],-1)
+        >>> w.saveChoices([],-1)
         Traceback (most recent call last):
         ...
         ValueError: The iteration parameter is not positive
-        >>> saveChoices([-0.5],0)
+        >>> w.saveChoices([-0.5],0)
         Traceback (most recent call last):
         ...
         TypeError: c is not positive or not an integer
-        >>> saveChoices([],0)
+        >>> w.saveChoices([],0)
         Traceback (most recent call last):
         ...
         ValueError: choices is empty
