@@ -225,7 +225,7 @@ class Window :
         self.FrameFace = Frame(self.app, relief = GROOVE, borderwidth = 5, padx = int(0.27*self.screen_width), background = 'beige', pady = 10)
         self.FrameFace.pack(fill = BOTH, expand = TRUE)
         path = './database'+str(self.iteration)+'/face'+str(self.choice[0])+'.png'
-        face = Image.open(path)
+        face = ImageTk.PhotoImage(Image.open(path).resize((int(0.07*self.screen_width), int(0.10*self.screen_height)), Image.ANTIALIAS))
         canvas = Canvas(self.FrameFace, width=0.2*self.screen_width, height=0.2*self.screen_height)
         canvas.pack()
         canvas.create_image(int(0.2*self.screen_width), int(0.2*self.screen_height), image = face)
@@ -378,7 +378,7 @@ class Window :
         a.runApp(im_choices, self.var_scale)
         self.__init__(self.app, self.iteration+1)
 
-    def createDB(database,iteration):
+    def createDB(self,database,iteration):
         """ This function creates a database of faces in a folder
 
         The name of the folder is a concatenation of 'database' and the iteration of the software.
@@ -440,7 +440,7 @@ class Window :
                 raise ValueError("The database is empty")
             else :
                 for f in database:
-                    if type(f) != Image :
+                    if not (isinstance(f, np.ndarray)) :
                         raise TypeError("The content of the database is not an Image")
                     else :
                         data=np.reshape(f,(218,178,3))*255

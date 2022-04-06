@@ -4,6 +4,7 @@ import sklearn.datasets as dt
 import genetic_algorithm as ga
 from PIL import Image
 from matplotlib import pyplot
+from os import walk
 
 
 """
@@ -29,10 +30,35 @@ for i in range(len(faces)):
 def choice(characteristics):
     global faces
     #faces=[]
+    
+
+    f = []
     for c in characteristics:
         print(c)
+        for (dirpath, dirnames, filenames) in walk("Images/"+c):
+            f.append(filenames)
+
+    for i in range(len(f)):
+        if i ==len(f)-1:
+            j=0
+        else:
+            j=i+1
+        it_i=0
+        it_j=0
+        while it_i!=len(f[i]) and it_j!=len(f[j]):
+            if f[i][it_i]==f[j][it_j]:
+                #faces.append("Images/"+characteristics[i]+"/"+f[i][it_i])
+                it_i+=1
+                it_j+=1
+            elif f[i][it_i]<f[j][it_j]:
+                it_i+=1
+            else:
+                it_j+=1
+        
+        #print(faces)
         #faces.append(np.array(Image.open("Images/"+c+"/"+n+".jpg")))
         
+#choice(["Mustache","Bald","Pale_Skin"])
 
 def runApp(data,var):
     global faces,encoder,decoder
