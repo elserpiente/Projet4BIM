@@ -21,7 +21,6 @@ faces=np.reshape(faces,(len(faces),4096))
 
 global faces,decoder,encoder
 encoder,decoder=ae.getAutoencoder()
-print("AE done")
 n="00"
 faces=["0020","0109","0119","0136","0229","0300","0307","0311","0377","0398","0450","0604","0619","0620","0689","0797","0902","0908","0971","1027","1094","2624","2668","2671","2725","2736","2743","2766","2768","2816","2900","2931","2935","3020","3036","3061","3066","3071","3077","3147","3364","3687","3690","3747","3773","3806","3864","3868","3886","3890","4018"]
 for i in range(len(faces)):
@@ -29,12 +28,11 @@ for i in range(len(faces)):
 
 def choice(characteristics):
     global faces
-    #faces=[]
-    
+    faces=[]
+    stock=[]
 
     f = []
     for c in characteristics:
-        print(c)
         for (dirpath, dirnames, filenames) in walk("Images/"+c):
             f.append(filenames)
 
@@ -47,19 +45,30 @@ def choice(characteristics):
         it_j=0
         while it_i!=len(f[i]) and it_j!=len(f[j]):
             if f[i][it_i]==f[j][it_j]:
-                #faces.append("Images/"+characteristics[i]+"/"+f[i][it_i])
+                faces.append("Images/"+characteristics[i]+"/"+f[i][it_i])
                 it_i+=1
                 it_j+=1
             elif f[i][it_i]<f[j][it_j]:
                 it_i+=1
             else:
                 it_j+=1
-        
-        #print(faces)
-        #faces.append(np.array(Image.open("Images/"+c+"/"+n+".jpg")))
-        
-#choice(["Mustache","Bald","Pale_Skin"])
+        it_f=0
+        for im in f[i]:
+            n=0
+            for it_f in range(len(faces)):
+                if "Images/"+characteristics[i]+"/"+im!=faces[it_f]:
+                    n+=1
+            if n==len(faces):
+                stock.append("Images/"+characteristics[i]+"/"+im)
 
+    n=50-len(faces)
+    for i in range(n):
+        pick=np.random.randint(0,len(stock))
+        faces.append(stock[pick])
+        
+    for i in range(len(faces)):
+        faces[i]=np.array(Image.open(faces[i]))/255
+        
 def runApp(data,var):
     global faces,encoder,decoder
 
