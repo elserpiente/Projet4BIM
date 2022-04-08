@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter.scrolledtext import ScrolledText
 from PIL import ImageTk, Image
 import os
 import app as a
@@ -102,9 +103,6 @@ class Window :
 
         self.app.title("Intelligent Facial Recognition")
         self.app.geometry(str(self.screen_width)+'x'+str(self.screen_height))
-        self.FrameTitle = Frame(self.app, pady = 10)
-        self.FrameTitle.pack(fill = BOTH, expand = TRUE)
-        Label(self.FrameTitle, text = "WELCOME TO THE FACIAL RECOGNITION SOFTWARE", font = ('Times New Roman', 30, 'bold'), pady = 10).place(anchor = CENTER, relx=.5, rely=.5)
 
         if self.iteration == 0 :
             self.first_page()
@@ -124,31 +122,36 @@ class Window :
         -------
         None
         """
-        self.FrameText = Frame(self.app, pady = 10)
-        self.FrameText.pack(fill = BOTH, expand = TRUE)
-        Label(self.FrameText, text = '''Please, choose some basic attributes of the agressor's face between the ones available below
-        in order for us to be able to prepare a first sample of faces. Then, press the button "Next step" when you've finished.''', font = ('Times New Roman', 20, 'italic'), pady = 10).place(anchor = CENTER, relx=.5, rely=.5)
+        self.FrameTitle = Frame(self.app, pady = 10, height = int(0.05*self.screen_height))
+        self.FrameTitle.pack(fill = BOTH, expand = TRUE)
+        Label(self.FrameTitle, text = "WELCOME TO THE FACIAL RECOGNITION SOFTWARE", font = ('Times New Roman', int(0.025*self.screen_width), 'bold'), pady = 10).place(anchor = CENTER, relx=.5, rely=.5)
 
-        self.FrameAttributes = Frame(self.app, padx = int(0.33*self.screen_width), pady = 10)
+        self.FrameText = Frame(self.app, pady = 10, height = int(0.05*self.screen_height))
+        self.FrameText.pack(fill = BOTH, expand = TRUE)
+        Label(self.FrameText, text = '''Please, choose some basic attributes of the agressor's face between the ones available below in order for us to be able to prepare a first sample of faces. 
+        Note that you have to select one attribute per column in order to be able to go the next step.
+        Then, press the button "Next step" when you've finished.''', font = ('Times New Roman', int(0.015*self.screen_width), 'italic'), pady = 10).place(anchor = CENTER, relx=.5, rely=.5)
+
+        self.FrameAttributes = Frame(self.app, relief = GROOVE, borderwidth = 5, padx = int(0.3*self.screen_width), pady = 50, background = "dark gray")
         self.FrameAttributes.pack(fill = BOTH, expand = TRUE)
         self.checkbuttons_attrib = []
         self.checkbuttons_attrib[:] = []
         k = 0
-        self.attributes = ["Fair_Hair","Dark_Hair","Bald","Mustache","Beard","Beardless","Pale_Skin","Intermediate_Skin","Dark_Skin"]
-        Label(self.FrameAttributes, text = "CHARACTERISTICS", font = ('Times New Roman', 24, 'italic')).grid(row = 0, column = 1, padx = 10, pady = 10)
-        Label(self.FrameAttributes, text = "HAIR", font = ('Times New Roman', 22, 'bold')).grid(row = 1, column = 0, padx = 10, pady = 10)
-        Label(self.FrameAttributes, text = "FACIAL HAIR", font = ('Times New Roman', 22, 'bold')).grid(row = 1, column = 1, padx = 10, pady = 10)
-        Label(self.FrameAttributes, text = "SKIN", font = ('Times New Roman', 22, 'bold')).grid(row = 1, column = 2, padx = 10, pady = 10)
+        self.attributes = ["Fair Hair","Dark Hair","Bald","Mustache","Beard","Beardless","Pale Skin","Intermediate Skin","Dark Skin"]
+        Label(self.FrameAttributes, background = "dark gray", text = "CHARACTERISTICS", font = ('Times New Roman', int(0.020*self.screen_width), 'bold')).grid(row = 0, column = 1, padx = 10, pady = 10)
+        Label(self.FrameAttributes, background = "dark gray", text = "HAIR", font = ('Times New Roman', int(0.015*self.screen_width), 'bold')).grid(row = 1, column = 0, padx = 10, pady = 10)
+        Label(self.FrameAttributes, background = "dark gray", text = "FACIAL HAIR", font = ('Times New Roman', int(0.015*self.screen_width), 'bold')).grid(row = 1, column = 1, padx = 10, pady = 10)
+        Label(self.FrameAttributes, background = "dark gray", text = "SKIN", font = ('Times New Roman', int(0.015*self.screen_width), 'bold')).grid(row = 1, column = 2, padx = 10, pady = 10)
         for i in range (3) : 
             self.checkbuttons_attrib.append([])
             for j in range(3) :
                 self.checkbuttons_attrib[i].append(IntVar())
-                Checkbutton(self.FrameAttributes, text = self.attributes[j+k], font = ('Times New Roman', 20), command = self.appearance_btn, compound = 'top', variable = self.checkbuttons_attrib[i][j]).grid(row = j+2, column = i, padx = 10, pady = 10)
+                Checkbutton(self.FrameAttributes, background = "dark gray", text = self.attributes[j+k], font = ('Times New Roman', int(0.015*self.screen_width)), command = self.appearance_btn, compound = 'top', variable = self.checkbuttons_attrib[i][j]).grid(row = j+2, column = i, padx = 10, pady = 10)
             k += 3
         
-        self.FrameVal = Frame(app, padx = 10, pady = 10)
+        self.FrameVal = Frame(self.app, padx = 10, pady = 10, height = int(0.06*self.screen_height))
         self.FrameVal.pack(fill = BOTH, expand = TRUE)
-        self.btn_attrib = Button(self.FrameVal, text = "Next Step", font = ('Times New Roman', 30, 'bold'), state = DISABLED, command = self.carac_choice, relief = GROOVE, width = 10, height = 2)
+        self.btn_attrib = Button(self.FrameVal, text = "Next Step", font = ('Times New Roman', int(0.020*self.screen_width), 'bold'), state = DISABLED, command = self.carac_choice, relief = GROOVE, width = 10, height = 2)
         self.btn_attrib.place(anchor = CENTER, relx=.5, rely=.5)
 
     def second_page(self) :
@@ -165,11 +168,28 @@ class Window :
         -------
         None
         """
-        self.FrameText = Frame(self.app, pady = 10)
-        self.FrameText.pack(fill = BOTH, expand = TRUE)
-        Label(self.FrameText, text = '''You can see 20 faces in front of you and you have to pick two of them that are 
-        the closest ones from your agressor. When you are sure about your choice, please press the "Validate"
-        button in order to go to the next step !''', font = ('Times New Roman', 18, 'italic')).place(anchor = CENTER, relx=.5, rely=.5)
+        self.FrameTitle = Frame(self.app, pady = 10, height = int(0.05*self.screen_height))
+        self.FrameTitle.pack(fill = BOTH, expand = TRUE)
+        Label(self.FrameTitle, text = "FINDING THE RIGHT FACE", font = ('Times New Roman', int(0.025*self.screen_width), 'bold'), pady = 10).place(anchor = CENTER, relx=.5, rely=.5)
+
+        self.FrameText = Frame(self.app, pady = 10, height = int(0.08*self.screen_height))
+        self.FrameText.pack(fill = X, expand = TRUE)
+        st = ScrolledText(self.FrameText, width = self.screen_width, height = int(0.006*self.screen_height), font = ('Times New Roman', int(0.015*self.screen_width), 'italic'))
+        st.insert(INSERT, '''----------INSTRUCTIONS----------
+        \n
+        You can see 20 faces in front of you and you have to select the closest ones from your agressor's face.
+        Note that you have to pick at least one face to have a new sample of faces in order to run or rerun the algorithm. 
+        \n
+        Also you can move the "Resemblance scale" between 0 and 10 if you want to give more informations to the algorithm. 
+        Be aware that 0 is a really far from the agressor's face and 10 is really close from it.
+        Then press the "Next Step" button if you want to find a closer face.
+        \n
+        When you are sure about your final choice, please press the "Finish" button in order to finish the simulation. 
+        Note that you can only select one face to activate this button.''', "text")
+        st.configure(state = DISABLED)
+        st.tag_configure("text", justify = CENTER)
+        st.tag_add("text", INSERT)
+        st.pack(fill = X, side = TOP)
 
         self.FrameFace = Frame(self.app, relief = GROOVE, borderwidth = 5, padx = int(0.27*self.screen_width), background = 'beige', pady = 10)
         self.FrameFace.pack(fill = BOTH, expand = TRUE)
@@ -189,19 +209,19 @@ class Window :
         for i in range (5) :
             for j in range (4) : 
                 self.checkbuttons.append(IntVar())
-                Checkbutton(self.FrameFace, text = "Face n°"+str(k+j+1), font = ('Times New Roman', 12), image = self.database_images[j+k], command = self.appearance_btn, compound = 'top', variable = self.checkbuttons[k+j]).grid(row=j, column=i)
+                Checkbutton(self.FrameFace, text = "Face n°"+str(k+j+1), font = ('Times New Roman', int(0.010*self.screen_width)), image = self.database_images[j+k], command = self.appearance_btn, compound = 'top', variable = self.checkbuttons[k+j]).grid(row=j, column=i)
             k += 4
 
-        self.FrameVal = Frame(app, padx = 10, pady = 10)
+        self.FrameVal = Frame(app, padx = 10, pady = 10, height = int(0.08*self.screen_height))
         self.FrameVal.pack(fill = BOTH, expand = TRUE)
-        self.btn = Button(self.FrameVal, text = "Next", font = ('Times New Roman', 20, 'bold'), state = DISABLED, command = self.face_choice, relief = GROOVE, width = 10, height = 2)
+        self.btn = Button(self.FrameVal, text = "Next", font = ('Times New Roman', int(0.020*self.screen_width), 'bold'), state = DISABLED, command = self.face_choice, relief = GROOVE, width = 10, height = 2)
         self.btn.place(anchor = CENTER, relx=.5, rely=.5)
 
         self.var_scale = IntVar()
-        self.scale = Scale(self.FrameVal, label = "Resemblance Scale", relief = GROOVE, font = ('Times New Roman', 20, 'bold'), orient = HORIZONTAL, to = 10, length = 200, variable = self.var_scale)
+        self.scale = Scale(self.FrameVal, label = "Resemblance Scale", relief = GROOVE, borderwidth = 2, font = ('Times New Roman', int(0.012*self.screen_width), 'bold'), orient = HORIZONTAL, to = 10, length = 200, variable = self.var_scale)
         self.scale.place(anchor = CENTER, relx = .25, rely = .5)
 
-        self.btn_end = Button(self.FrameVal, text = "Finish", font = ('Times New Roman', 20, 'bold'), state = DISABLED, command = self.end, relief = GROOVE, width = 10, height = 2)
+        self.btn_end = Button(self.FrameVal, text = "Finish", font = ('Times New Roman', int(0.020*self.screen_width), 'bold'), state = DISABLED, command = self.end, relief = GROOVE, width = 10, height = 2)
         self.btn_end.place(anchor = CENTER, relx = .75, rely = .5)
 
     def final_page(self) :
@@ -218,21 +238,28 @@ class Window :
         -------
         None
         """
+        self.FrameTitle = Frame(self.app, pady = 10)
+        self.FrameTitle.pack(fill = BOTH, expand = TRUE)
+        Label(self.FrameTitle, text = "FINAL RESULT", font = ('Times New Roman', int(0.025*self.screen_width), 'bold'), pady = 10).place(anchor = CENTER, relx=.5, rely=.5)
+
         self.FrameText = Frame(self.app, pady = 10)
         self.FrameText.pack(fill = BOTH, expand = TRUE)
-        Label(self.FrameText, text = "You have reached the end of the simulation. Please find below the face you've chosen as the closest from your agressor.", font = ('Times New Roman', 20, 'italic')).place(anchor = CENTER, relx=.5, rely=.5)
+        Label(self.FrameText, text = "You have reached the end of the simulation. Please find below the face you've chosen as the closest from your agressor.", font = ('Times New Roman', int(0.015*self.screen_width), 'italic')).place(anchor = CENTER, relx=.5, rely=.5)
 
-        self.FrameFace = Frame(self.app, relief = GROOVE, borderwidth = 5, padx = int(0.27*self.screen_width), background = 'beige', pady = 10)
+        self.FrameFace = Frame(self.app, relief = GROOVE, borderwidth = 5, padx = int(0.27*self.screen_width), pady = 10, background = 'beige', height = int(0.4*self.screen_height))
         self.FrameFace.pack(fill = BOTH, expand = TRUE)
         path = './database'+str(self.iteration)+'/face'+str(self.choice[0])+'.png'
-        face = ImageTk.PhotoImage(Image.open(path).resize((int(0.07*self.screen_width), int(0.10*self.screen_height)), Image.ANTIALIAS))
-        canvas = Canvas(self.FrameFace, width=0.2*self.screen_width, height=0.2*self.screen_height)
-        canvas.pack()
-        canvas.create_image(int(0.2*self.screen_width), int(0.2*self.screen_height), image = face)
+        print(self.iteration, self.choice[0])
+        face = Image.open(path)
+        face = face.resize((int(0.2*self.screen_width), int(0.3*self.screen_height)), Image.ANTIALIAS)
+        self.face = ImageTk.PhotoImage(face)
+        canvas = Canvas(self.FrameFace, width=0.21*self.screen_width, height=0.31*self.screen_height)
+        canvas.create_image(10, 10, image = self.face, anchor = NW)
+        canvas.place(anchor = CENTER, relx=.5, rely=.5)
 
         self.FrameVal = Frame(app, padx = 10, pady = 10)
         self.FrameVal.pack(fill = BOTH, expand = TRUE)
-        self.btn_final = Button(self.FrameVal, text = "Reset", font = ('Times New Roman', 20, 'bold'), command = self.reset, relief = GROOVE, width = 10, height = 2)
+        self.btn_final = Button(self.FrameVal, text = "Reset", font = ('Times New Roman', int(0.020*self.screen_width), 'bold'), command = self.reset, relief = GROOVE, width = 10, height = 2)
         self.btn_final.pack()
 
     def carac_choice(self) :
@@ -258,13 +285,13 @@ class Window :
                     self.choice_carac.append(self.attributes[x+y])
                 x += 1
             y += 3
-        # Ligne à décommenter quand la fonction de choix de app est créée
         a.choice(self.choice_carac)
+        self.FrameTitle.pack_forget()
         self.FrameAttributes.pack_forget()
         self.FrameText.pack_forget()
         self.FrameVal.pack_forget()
         self.iteration += 1
-        self.second_page()
+        self.__init__(self.app, self.iteration)
 
     def appearance_btn(self) :
         """ This function allows the `btn_attrib` and the `btn_end` buttons to be available or not for the user to press
@@ -321,6 +348,7 @@ class Window :
             if var.get() == 1 :
                 self.choice.append(i)
             i += 1
+        self.FrameTitle.pack_forget()
         self.FrameFace.pack_forget()
         self.FrameText.pack_forget()
         self.FrameVal.pack_forget()
@@ -399,7 +427,7 @@ class Window :
         TypeError
             If `iteration` is not an integer
         TypeError
-            If the content of `database` is not an Image
+            If the content of `database` is not numpy arrays
 
         Returns
         -------
@@ -408,24 +436,28 @@ class Window :
         Unitary Tests
         -------------
         >>> from PIL import Image
-        >>> createDB([],0.5)
+        >>> from tkinter import *
+        >>> import numpy as np
+        >>> import app as a
+        >>> app = Tk()
+        >>> w = Window(app, 0)
+        >>> w.createDB([],0.5)
         Traceback (most recent call last):
         ...
         TypeError: The iteration parameter is not an integer
-        >>> createDB([],-1)
+        >>> w.createDB([],-1)
         Traceback (most recent call last):
         ...
         ValueError: The iteration parameter is not positive
-        >>> createDB([],0)
+        >>> w.createDB([],0)
         Traceback (most recent call last):
         ...
         ValueError: The database is empty
-        >>> createDB([1,2,3],0)
+        >>> w.createDB([1,2,3],0)
         Traceback (most recent call last):
         ...
         TypeError: The content of the database is not an Image
-        >>> createDB([Image.new(RGB, [20,20])],0)
-        ok
+        >>> app.destroy()
         """
         if type(iteration) != int :
             raise TypeError("The iteration parameter is not an integer")
@@ -452,7 +484,6 @@ class Window :
                         data.save("./database"+str(iteration)+"/face"+str(i)+".png")
                         i += 1
             
-
     def saveChoices(self,choices,iteration):
         """ This function saves the faces' choice of the user in a new folder
 
