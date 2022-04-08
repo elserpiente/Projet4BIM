@@ -285,7 +285,7 @@ class Window :
             x = 0
             for carac in type :
                 if carac.get() == 1 :
-                    self.choice_carac.append(self.attributes[x+y])
+                    self.choice_carac.append(self.attributes[x+y].replace(" ", "_"))
                 x += 1
             y += 3
         a.choice(self.choice_carac)
