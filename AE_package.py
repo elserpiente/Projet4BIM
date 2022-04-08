@@ -67,13 +67,9 @@ def saveAutoencoder(autoencoder,encoder,decoder):
     decoder.save('./AE/decoder.h5')
 
 def getAutoencoder():
-    print("0")
     #autoencoder = keras.models.load_model('./AE/ae.h5')
-    print("1")
     encoder = keras.models.load_model('./AE/encoder.h5')
-    print("2")
     decoder = keras.models.load_model('./AE/decoder.h5')
-    print("3")
     return encoder,decoder
     
     
@@ -159,27 +155,3 @@ def getLVect(file_name):
     vectors=np.ones(nb_vect*len_vect)
     vectors=vectors*vect
     return(np.reshape(vectors,(nb_vect,len_vect)))
-
-import tensorflow
-from tensorflow.keras.callbacks import Callback
-import numpy as np
-import os
-
-                
-class BestModelCallback(Callback):
-
-    def __init__(self, filename= './run_dir/best-model.h5', verbose=0 ):
-        self.filename = filename
-        self.verbose  = verbose
-        self.loss     = np.Inf
-        os.makedirs( os.path.dirname(filename), mode=0o750, exist_ok=True)
-                
-    def on_train_begin(self, logs=None):
-        self.loss = np.Inf
-        
-    def on_epoch_end(self, epoch, logs=None):
-        current = logs.get("loss")
-        if current < self.loss:
-            self.loss = current
-            self.model.save(self.filename)
-            if self.verbose>0: print(f'Saved - loss={current:.6f}')

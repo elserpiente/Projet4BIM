@@ -6,6 +6,7 @@ import app as a
 import numpy as np
 import skimage.color as skic
 import doctest
+import shutil
 
 class Window :
     """ A class to represent the window
@@ -93,7 +94,6 @@ class Window :
 
         self.images_data=[]
         self.images_data[:] = []
-        self.createDB(a.faces,self.iteration)
         
         self.choice = []
         self.choice[:] = []
@@ -194,6 +194,7 @@ class Window :
         self.FrameFace = Frame(self.app, relief = GROOVE, borderwidth = 5, padx = int(0.27*self.screen_width), background = 'beige', pady = 10)
         self.FrameFace.pack(fill = BOTH, expand = TRUE)
 
+        self.createDB(a.faces,self.iteration)
         self.database_images = []
         self.database_images[:] = []
         for i in range (20) :
@@ -261,6 +262,8 @@ class Window :
         self.FrameVal.pack(fill = BOTH, expand = TRUE)
         self.btn_final = Button(self.FrameVal, text = "Reset", font = ('Times New Roman', int(0.020*self.screen_width), 'bold'), command = self.reset, relief = GROOVE, width = 10, height = 2)
         self.btn_final.pack()
+
+        cleanDir()
 
     def carac_choice(self) :
         """ This function is saving and sending the attributes's choice of the victim to the 'app.py' file
@@ -541,7 +544,7 @@ class Window :
         elif iteration < 0 : 
             raise ValueError('The iteration parameter is not positive')
         else :
-            os.system('mkdir choice'+str(iteration))
+            os.system('mkdir choice'+str(iteration+1))
             im_choices=[]
             if len(choices) == 0 :
                 raise ValueError("choices is empty")
@@ -552,8 +555,15 @@ class Window :
                     im_choices.append(self.images_data[c+1])
                 i=0
                 for f in im_choices:
-                    f.save("./choice"+str(iteration)+"/face"+str(choices[i]+1)+".png")
+                    f.save("./choice"+str(iteration+1)+"/face"+str(choices[i]+1)+".png")
                     i+=1
+def cleanDir():
+    for (dirpath, dirnames, filenames) in os.walk("../Projet4BIM"):
+            if dirpath=="../Projet4BIM":
+                for d in dirnames:
+                    if d[0:8]=="database" or d[0:6]=="choice":
+                        shutil.rmtree(d)
+    
 
 if __name__ == '__main__' :
     doctest.testmod(verbose = True)
