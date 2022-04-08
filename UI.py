@@ -139,7 +139,7 @@ class Window :
         self.choice_carac = []
         self.choice_carac[:] = []
 
-        self.app.title("Intelligent Facial Recognition")
+        self.app.title("LOCAL Software")
         self.app.geometry(str(self.screen_width)+'x'+str(self.screen_height))
 
         if self.iteration == 0 :
@@ -162,7 +162,7 @@ class Window :
         """
         self.FrameTitle = Frame(self.app, pady = 10, height = int(0.05*self.screen_height))
         self.FrameTitle.pack(fill = BOTH, expand = TRUE)
-        Label(self.FrameTitle, text = "WELCOME TO THE FACIAL RECOGNITION SOFTWARE", font = ('Times New Roman', int(0.025*self.screen_width), 'bold'), pady = 10).place(anchor = CENTER, relx=.5, rely=.5)
+        Label(self.FrameTitle, text = "WELCOME TO THE LOCAL SOFTWARE", font = ('Times New Roman', int(0.025*self.screen_width), 'bold'), pady = 10).place(anchor = CENTER, relx=.5, rely=.5)
 
         self.FrameText = Frame(self.app, pady = 10, height = int(0.05*self.screen_height))
         self.FrameText.pack(fill = BOTH, expand = TRUE)
