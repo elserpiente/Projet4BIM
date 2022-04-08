@@ -3,16 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Project_4BIM's documentation!
+Welcome to LOCAL software's documentation!
 ========================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   intro
-   fichier
-   modules
+   AE_package
+   genetic_algorithm
+   UI
 
 
 

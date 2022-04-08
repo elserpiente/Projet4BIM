@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>sys module &#8212; LOCAL software 0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-sys">
+<span id="sys-module"></span><h1>sys module<a class="headerlink" href="#module-sys" title="Permalink to this headline">¶</a></h1>
+<p>This module provides access to some objects used or maintained by the
+interpreter and to functions that interact strongly with the interpreter.</p>
+<p>Dynamic objects:</p>
+<p>argv – command line arguments; argv[0] is the script pathname if known
+path – module search path; path[0] is the script directory, else ‘’
+modules – dictionary of loaded modules</p>
+<p>displayhook – called to show results in an interactive session
+excepthook – called to handle any uncaught exception other than SystemExit</p>
+<blockquote>
+<div><p>To customize printing in an interactive session or to install a custom
+top-level exception handler, assign other functions to replace these.</p>
+</div></blockquote>
+<p>stdin – standard input file object; used by input()
+stdout – standard output file object; used by print()
+stderr – standard error object; used for error messages</p>
+<blockquote>
+<div><p>By assigning other file objects (or objects that behave like files)
+to these, it is possible to redirect all of the interpreter’s I/O.</p>
+</div></blockquote>
+<p>last_type – type of last uncaught exception
+last_value – value of last uncaught exception
+last_traceback – traceback of last uncaught exception</p>
+<blockquote>
+<div><p>These three are only available in an interactive session after a
+traceback has been printed.</p>
+</div></blockquote>
+<p>Static objects:</p>
+<p>builtin_module_names – tuple of module names built into this interpreter
+copyright – copyright notice pertaining to this interpreter
+exec_prefix – prefix used to find the machine-specific Python library
+executable – absolute path of the executable binary of the Python interpreter
+float_info – a named tuple with information about the float implementation.
+float_repr_style – string indicating the style of repr() output for floats
+hash_info – a named tuple with information about the hash algorithm.
+hexversion – version information encoded as a single integer
+implementation – Python implementation information.
+int_info – a named tuple with information about the int implementation.
+maxsize – the largest supported length of containers.
+maxunicode – the value of the largest Unicode code point
+platform – platform identifier
+prefix – prefix used to find the Python library
+thread_info – a named tuple with information about the thread implementation.
+version – the version of this interpreter as a string
+version_info – version information as a named tuple
+dllhandle – [Windows only] integer handle of the Python DLL
+winver – [Windows only] version number of the Python DLL
+_enablelegacywindowsfsencoding – [Windows only]
+__stdin__ – the original stdin; don’t touch!
+__stdout__ – the original stdout; don’t touch!
+__stderr__ – the original stderr; don’t touch!
+__displayhook__ – the original displayhook; don’t touch!
+__excepthook__ – the original excepthook; don’t touch!</p>
+<p>Functions:</p>
+<p>displayhook() – print an object to the screen, and save it in builtins._
+excepthook() – print an exception and its traceback to sys.stderr
+exc_info() – return thread-safe information about the current exception
+exit() – exit the interpreter by raising SystemExit
+getdlopenflags() – returns flags to be used for dlopen() calls
+getprofile() – get the global profiling function
+getrefcount() – return the reference count for an object (plus one :-)
+getrecursionlimit() – return the max recursion depth for the interpreter
+getsizeof() – return the size of an object in bytes
+gettrace() – get the global debug tracing function
+setcheckinterval() – control how often the interpreter checks for events
+setdlopenflags() – set the flags to be used for dlopen() calls
+setprofile() – set the global profiling function
+setrecursionlimit() – set the max recursion depth for the interpreter
+settrace() – set the global debug tracing function</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.addaudithook">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">addaudithook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hook</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.addaudithook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a new audit hook callback.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.audit">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">audit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.audit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Passes the event to any audit hooks that are attached.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.breakpointhook">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">breakpointhook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kws</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.breakpointhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>This hook function is called by built-in breakpoint().</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.call_tracing">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">call_tracing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.call_tracing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call func(<a href="#id1"><span class="problematic" id="id2">*</span></a>args), while tracing is enabled.</p>
+<p>The tracing state is saved, and restored afterwards.  This is intended
+to be called from a debugger from a checkpoint, to recursively debug
+some other code.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.callstats">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">callstats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.callstats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a tuple of function call statistics.</p>
+<p>A tuple is returned only if CALL_PROFILE was defined when Python was
+built.  Otherwise, this returns None.</p>
+<p>When enabled, this function returns detailed, implementation-specific
+details about the number of function calls executed. The return value
+is a 11-tuple where the entries in the tuple are counts of:
+0. all function calls
+1. calls to PyFunction_Type objects
+2. PyFunction calls that do not create an argument tuple
+3. PyFunction calls that do not create an argument tuple</p>
+<blockquote>
+<div><p>and bypass PyEval_EvalCodeEx()</p>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li><p>PyMethod calls</p></li>
+<li><p>PyMethod calls on bound methods</p></li>
+<li><p>PyType calls</p></li>
+<li><p>PyCFunction calls</p></li>
+<li><p>generator calls</p></li>
+<li><p>All other calls</p></li>
+<li><p>Number of stack pops performed by call_function()</p></li>
+</ol>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.displayhook">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">displayhook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.displayhook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print an object to sys.stdout and also save it in builtins._</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.exc_info">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">exc_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.exc_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return current exception information: (type, value, traceback).</p>
+<p>Return information about the most recent exception caught by an except
+clause in the current stack frame or in an older stack frame.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.excepthook">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">excepthook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exctype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">traceback</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.excepthook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle an exception by displaying it with a traceback on sys.stderr.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.exit">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">exit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit the interpreter by raising SystemExit(status).</p>
+<p>If the status is omitted or None, it defaults to zero (i.e., success).
+If the status is an integer, it will be used as the system exit status.
+If it is another kind of object, it will be printed and the system
+exit status will be one (i.e., failure).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.get_asyncgen_hooks">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">get_asyncgen_hooks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.get_asyncgen_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the installed asynchronous generators hooks.</p>
+<p>This returns a namedtuple of the form (firstiter, finalizer).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.get_coroutine_origin_tracking_depth">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">get_coroutine_origin_tracking_depth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.get_coroutine_origin_tracking_depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check status of origin tracking for coroutine objects in this thread.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getallocatedblocks">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getallocatedblocks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getallocatedblocks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of memory blocks currently allocated.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getcheckinterval">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getcheckinterval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getcheckinterval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current check interval; see sys.setcheckinterval().</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getdefaultencoding">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getdefaultencoding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getdefaultencoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current default encoding used by the Unicode implementation.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getfilesystemencodeerrors">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getfilesystemencodeerrors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getfilesystemencodeerrors" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the error mode used Unicode to OS filename conversion.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getfilesystemencoding">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getfilesystemencoding</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getfilesystemencoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the encoding used to convert Unicode filenames to OS filenames.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getprofile">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getprofile</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getprofile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the profiling function set with sys.setprofile.</p>
+<p>See the profiler chapter in the library manual.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getrecursionlimit">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getrecursionlimit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getrecursionlimit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current value of the recursion limit.</p>
+<p>The recursion limit is the maximum depth of the Python interpreter
+stack.  This limit prevents infinite recursion from causing an overflow
+of the C stack and crashing Python.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getrefcount">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getrefcount</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.getrefcount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the reference count of object.</p>
+<p>The count returned is generally one higher than you might expect,
+because it includes the (temporary) reference as an argument to
+getrefcount().</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getsizeof">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getsizeof</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">default</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#sys.getsizeof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the size of object in bytes.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getswitchinterval">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getswitchinterval</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getswitchinterval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current thread switch interval; see sys.setswitchinterval().</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.gettrace">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">gettrace</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.gettrace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the global debug tracing function set with sys.settrace.</p>
+<p>See the debugger chapter in the library manual.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.getwindowsversion">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">getwindowsversion</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.getwindowsversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return info about the running version of Windows as a named tuple.</p>
+<p>The members are named: major, minor, build, platform, service_pack,
+service_pack_major, service_pack_minor, suite_mask, product_type and
+platform_version. For backward compatibility, only the first 5 items
+are available by indexing. All elements are numbers, except
+service_pack and platform_type which are strings, and platform_version
+which is a 3-tuple. Platform is always 2. Product_type may be 1 for a
+workstation, 2 for a domain controller, 3 for a server.
+Platform_version is a 3-tuple containing a version number that is
+intended for identifying the OS rather than feature detection.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.intern">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">intern</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.intern" title="Permalink to this definition">¶</a></dt>
+<dd><p><a href="#id3"><span class="problematic" id="id4">``</span></a>Intern’’ the given string.</p>
+<p>This enters the string in the (global) table of interned strings whose
+purpose is to speed up dictionary lookups. Return the string itself or
+the previously interned string object with the same value.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.is_finalizing">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">is_finalizing</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sys.is_finalizing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if Python is exiting.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.set_asyncgen_hooks">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">set_asyncgen_hooks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">*</span> <span class="pre">[,</span> <span class="pre">firstiter]</span> <span class="pre">[,</span> <span class="pre">finalizer]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.set_asyncgen_hooks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a finalizer for async generators objects.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.set_coroutine_origin_tracking_depth">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">set_coroutine_origin_tracking_depth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">depth</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.set_coroutine_origin_tracking_depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable or disable origin tracking for coroutine objects in this thread.</p>
+<p>Coroutine objects will track ‘depth’ frames of traceback information
+about where they came from, available in their cr_origin attribute.</p>
+<p>Set a depth of 0 to disable.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.setcheckinterval">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">setcheckinterval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.setcheckinterval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the async event check interval to n instructions.</p>
+<p>This tells the Python interpreter to check for asynchronous events
+every n instructions.</p>
+<p>This also affects how often thread switches occur.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.setprofile">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">setprofile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.setprofile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the profiling function.  It will be called on each function call
+and return.  See the profiler chapter in the library manual.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.setrecursionlimit">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">setrecursionlimit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">limit</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.setrecursionlimit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the maximum depth of the Python interpreter stack to n.</p>
+<p>This limit prevents infinite recursion from causing an overflow of the C
+stack and crashing Python.  The highest possible limit is platform-
+dependent.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.setswitchinterval">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">setswitchinterval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interval</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.setswitchinterval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the ideal thread switching delay inside the Python interpreter.</p>
+<p>The actual frequency of switching threads can be lower if the
+interpreter executes long sequences of uninterruptible code
+(this is implementation-specific and workload-dependent).</p>
+<p>The parameter must represent the desired switching delay in seconds
+A typical value is 0.005 (5 milliseconds).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.settrace">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">settrace</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.settrace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the global debug tracing function.  It will be called on each
+function call.  See the debugger chapter in the library manual.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sys.unraisablehook">
+<span class="sig-prename descclassname"><span class="pre">sys.</span></span><span class="sig-name descname"><span class="pre">unraisablehook</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">unraisable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">/</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#sys.unraisablehook" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handle an unraisable exception.</p>
+<p>The unraisable argument has the following attributes:</p>
+<ul class="simple">
+<li><p>exc_type: Exception type.</p></li>
+<li><p>exc_value: Exception value, can be None.</p></li>
+<li><p>exc_traceback: Exception traceback, can be None.</p></li>
+<li><p>err_msg: Error message, can be None.</p></li>
+<li><p>object: Object causing the exception, can be None.</p></li>
+</ul>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">LOCAL software</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="AE_package.html">AE_package module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genetic_algorithm.html">genetic_algorithm module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UI.html">UI module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Vergnaud Dutreve Londono Louis Braud.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/sys.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
