@@ -17,7 +17,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Project_4BIM'
+project = 'LOCAL software'
 copyright = '2022, Vergnaud Dutreve Londono Louis Braud'
 author = 'Vergnaud Dutreve Londono Louis Braud'
 

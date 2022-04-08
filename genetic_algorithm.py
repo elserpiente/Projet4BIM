@@ -8,6 +8,7 @@ import random as rd
 ### Only for tests ###
 #########################################################################################################################################
 
+'''
 
 def genome_generation (length):         # generates a np.array-genome randomly full of number between 0 and 1
     vec = []
@@ -24,7 +25,7 @@ def initialisation (N, T):               # creates a population of N genomes of 
         pop.append(genome_generation(T))
     return np.array(pop)
 
-
+'''
 
 ###########################################################################################################################################
 
@@ -54,7 +55,7 @@ def gaussian_noise (P, m, var):
     >>> P = np.array([[0.1, 0.5, 0.4, 0.3],
                       [0.8, 0.2, 0.2, 0.9]])
     >>> var = 0.05
-    >>> m = 2 # useless here, becaus P contains more than 1 vector
+    >>> m = 2 # useless here, because P contains more than 1 vector
     >>> gaussian_noise (P, m, var)
     array([[0.14, 0.47, 0.46, 0.23],
            [0.85, 0.19, 0.22, 0.88]])
@@ -145,6 +146,8 @@ def crossing_over (P, m, Tc=1):
 ### Unitary tests ###
 #########################################################################################################################################
 
+'''
+
 def unitary_test_1_vector_cross ():
 
     try:
@@ -180,21 +183,4 @@ def unitary_test_1_vector_noise():
 
 print(unitary_test_1_vector_noise())
 
-
-"""
-# Main loop
-for i in range(50):
-    print(rd.randint(0, 3))
-
-#input_vectors = getLVect('vector.txt')
-input_vectors=[[0.3,0.1,0.5],[0.2,0.6,0.2],[0.2,0.8,0.2]]
-input_vectors=np.array(input_vectors)
-print(input_vectors)
-n = input_vectors.shape[0]  
-t = input_vectors.shape[1]
-noisy_vectors = gaussian_noise(input_vectors)
-print(noisy_vectors)
-output_vectors = crossing_over(noisy_vectors)
-print(output_vectors)
-
-"""
+'''
