@@ -4,7 +4,6 @@ from PIL import ImageTk, Image
 import os
 import app as a
 import numpy as np
-import skimage.color as skic
 import doctest
 import shutil
 
